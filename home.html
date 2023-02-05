@@ -1,0 +1,36 @@
+<script>
+
+    // fetching and writing the contents of the users table to the console
+    fetch('http://localhost:3000/users')
+    .then(result => {
+        return result.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+
+    // function to call the api and add a user with the given parameters
+    function addUser(mail, pass, nam) {
+        fetch('http://localhost:3000/users', { 
+        method: 'POST', 
+        body:JSON.stringify({
+            email:mail,
+            password:pass,
+            first_name:nam
+        }),
+        headers:{
+            "Content-Type": "application/json; charset=UTF-8"
+        }
+    })
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(data) {
+        console.log(data);
+    });
+    }
+
+    // test function to add a user to the database
+    addUser("this", "is", "a test");
+    
+</script>
