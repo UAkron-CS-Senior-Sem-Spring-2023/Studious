@@ -7,3 +7,4 @@ Group #4: Brad Sandorf, Don Skello, Mitch Ruple
 - mongoose
 - body-parser
 - cors
+- dotenv
