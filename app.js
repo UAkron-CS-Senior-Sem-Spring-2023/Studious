@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require("dotenv").config();
 
 // MIDDLEWARES
 app.use(cors());
@@ -21,7 +22,7 @@ app.get('/', (req, res) => {
 })
 
 // connect to the mongodb
-mongoose.connect('mongodb+srv://studiousprj:studiousnet5@studious.5mlqmcc.mongodb.net/?retryWrites=true&w=majority', 
+mongoose.connect('mongodb+srv://studiousprj:' + process.env.MONGO_PWD + '@studious.5mlqmcc.mongodb.net/?retryWrites=true&w=majority', 
     { useNewUrlParser: true }, 
     () => console.log("connected to db")
 );
