@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import LoginSignupForm from './login'
 import styles from '@/styles/Home.module.css'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
 
 
 export default function Home() {

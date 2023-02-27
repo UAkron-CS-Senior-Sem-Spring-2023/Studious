@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import Link from 'next/link'
 import styles from '../styles/Login.module.css'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
 
 
 const LoginSignupForm = () => {
