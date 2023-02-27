@@ -1,9 +1,11 @@
+// model for user schema mongodb object
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
     email: {
         type: String,
-        required: true
+        required: [true, 'Please add an email'],
+        unique: true
     },
     password: {
         type: String,
@@ -15,4 +17,4 @@ const UserSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Users', UserSchema);
+module.exports = mongoose.models.User || mongoose.model('User', UserSchema);
