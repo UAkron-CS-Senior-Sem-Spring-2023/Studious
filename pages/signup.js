@@ -5,6 +5,7 @@ import cx from 'classnames'
 import styles from 'styles/Login.module.css'
 import Link from 'next/link';
 import Image from 'next/image';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const Signup = () => {
     const addUser = async (event) => {

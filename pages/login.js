@@ -1,6 +1,7 @@
 import cx from 'classnames'
 import Link from 'next/link'
 import styles from '../styles/Login.module.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 
 const LoginSignupForm = () => {
@@ -35,12 +36,12 @@ const LoginSignupForm = () => {
     <main className={cx(styles["form-signin"],"text-center","mt-5")}>
       <form onSubmit={verifyUser}>
         <div className="form-floating">
-          <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" />
-          <label htmlFor="email">Email address</label>
+          <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
+          <label htmlFor="floatingInput">Email address</label>
         </div>
         <div className="form-floating">
-          <input type="password" className="form-control" id="password" name="password" placeholder="Password" />
-          <label htmlFor="password">Password</label>
+          <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+          <label htmlFor="floatingPassword">Password</label>
         </div>
 
         <div className={cx(styles.checkbox,"mb-3")}>
