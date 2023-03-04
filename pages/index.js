@@ -27,23 +27,6 @@ function CheckForLogin() {
   }
 }
 
-// returns the email
-function DisplayEmail() {
-  const [email, setEmail] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setEmail(localStorage.getItem('email'));
-    }
-  }, []);
-
-  if (email) {
-    return <h1>{email}</h1>;
-  } else {
-    return null;
-  }
-}
-
 // displays the schedule
 function DisplaySchedule() {
 
