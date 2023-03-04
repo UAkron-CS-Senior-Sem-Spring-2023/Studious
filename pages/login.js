@@ -36,11 +36,11 @@ const LoginSignupForm = () => {
     <main className={cx(styles["form-signin"],"text-center","mt-5")}>
       <form onSubmit={verifyUser}>
         <div className="form-floating">
-          <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
+          <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" />
           <label htmlFor="floatingInput">Email address</label>
         </div>
         <div className="form-floating">
-          <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+          <input type="password" className="form-control" id="password" name="password" placeholder="Password" />
           <label htmlFor="floatingPassword">Password</label>
         </div>
 
