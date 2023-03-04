@@ -41,11 +41,13 @@ export default function Home() {
         <link rel="icon" href="/studious-website-favicon-black.png" />
       </Head>
       <main className={styles.main}>
-        <Image
-          src="/studioustransparent.png"
-          width={150}
-          height={75}
-        />
+        <div className={styles.logoContainer}>
+          <Image
+            src="/studioustransparent.png"
+            width={150}
+            height={75}
+          />
+        </div>
         
         {/* On load, check if the user is logged in. If they are not, redirect them to the login page, which will redirect them back here after they login */}
         <CheckForLogin />

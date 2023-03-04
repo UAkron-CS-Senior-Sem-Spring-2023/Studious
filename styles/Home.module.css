@@ -7,4 +7,10 @@
   min-height: 100vh;
 }
 
+.logoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
+}
 
