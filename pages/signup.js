@@ -29,6 +29,16 @@ const Signup = () => {
 
     const response = await fetch(endpoint, options);
     const result = await response.json();
+
+    // check if the post was successful
+    if (result.success) {
+      // set the localsession variable
+      localStorage.setItem('email', event.target.email.value);
+      localStorage.setItem('first_name', event.target.first_name.value);
+
+      // redirect the user back to the home page
+      window.location.href = '/';
+    }
   }
 
   //form onSubmit should call addUser
