@@ -21,7 +21,38 @@ function CheckForLogin() {
 }
 
 // displays the schedule
-function DisplaySchedule() {}
+function DisplaySchedule() {
+  const [classEntries, setClassEntries] = useState([]);
+
+  // get the email address of the user
+  useEffect(() => {
+    let email = localStorage.getItem("email");
+    
+    // build the query for the API
+    const queryString = `/api/classes?email=${email}`;
+
+    fetch(queryString)
+      .then(response => response.json())
+      .then(data => setClassEntries(data.data))
+      .catch(error => console.error(error))
+  }, []);
+
+  // display the results
+  return (
+    <div>
+      {classEntries.map(entry => (
+        <div key={entry._id}>
+          <h2>{entry.className}</h2>
+          <p>{entry.classLocation}</p>
+          <p>{entry.startTime}</p>
+          <p>{entry.endTime}</p>
+          <p>{entry.days}</p>
+          <br />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function ProfileTab() {
 
