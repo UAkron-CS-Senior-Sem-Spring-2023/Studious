@@ -37,16 +37,34 @@ function DisplaySchedule() {
       .catch(error => console.error(error))
   }, []);
 
+  function formatTime(timeString) {
+    const dateObj = new Date(timeString);
+    let hours = dateObj.getHours();
+    const minutes = dateObj.getMinutes();
+    let timeOfDay = "";
+
+    if (hours > 12) {
+      hours-=12;
+      timeOfDay = "PM";
+    } else {
+      timeOfDay = "AM";
+    }
+
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+
+    return `${hours}:${formattedMinutes} ${timeOfDay}`
+  }
+
   // display the results
   return (
     <div>
       {classEntries.map(entry => (
         <div key={entry._id}>
-          <h2>{entry.className}</h2>
+          <h2><b>{entry.className}</b></h2>
           <p>{entry.classLocation}</p>
-          <p>{entry.startTime}</p>
-          <p>{entry.endTime}</p>
-          <p>{entry.days}</p>
+          <p>Start time: {formatTime(entry.startTime)} </p>
+          <p>End time: {formatTime(entry.endTime)}</p>
+          <p>{entry.days.join(", ")}</p>
           <br />
         </div>
       ))}
@@ -59,8 +77,9 @@ function ProfileTab() {
   // logout function
   const logoutFunc = () => {
     if (typeof window !== "undefined") {
-      // remove the 'email' field from localstorage
+      // remove the 'email' and 'first_name' fields from local storage
       localStorage.removeItem('email');
+      localStorage.removeItem('first_name');
 
       // reload the page- this will take the user to the home page
       window.location.reload();
@@ -156,7 +175,6 @@ export default function Home() {
           </Box>
 
           {/* Main content goes here */}
-           <h1>Schedule</h1>
 
           <Box bg="white" p={4} w="86%">
             <ProfileTab/>

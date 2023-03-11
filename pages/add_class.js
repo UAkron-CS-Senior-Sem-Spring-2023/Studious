@@ -29,8 +29,9 @@ function ProfileTab() {
   // logout function
   const logoutFunc = () => {
     if (typeof window !== "undefined") {
-      // remove the 'email' field from localstorage
+      // remove the 'email' and 'first_name' fields from local storage
       localStorage.removeItem('email');
+      localStorage.removeItem('first_name');
 
       // reload the page- this will take the user to the home page
       window.location.reload();
@@ -74,8 +75,6 @@ const addClass = async (event) => {
   const endTime = event.target.end_time.value;
   const email = localStorage.getItem('email');
   const color = event.target.color.value;
-
-  alert(startTime);
 
   // create an array of selected days
   let selectedDays = [];
@@ -178,7 +177,7 @@ export default function Home() {
 
         {/* class name */}
         <div className="form-floating">
-          <input type="text" className="form-control" id="class_name" name="class_name" placeholder="" />
+          <input type="text" className="form-control" id="class_name" name="class_name" placeholder="Class Name" />
           <label htmlFor="class_name">Class name</label>
         </div>
         <br />
@@ -186,7 +185,7 @@ export default function Home() {
 
         {/* class location */}
         <div className="form-floating">
-          <input type="text" className="form-control" id="location" name="location" placeholder="Name" />
+          <input type="text" className="form-control" id="location" name="location" placeholder="Location" />
           <label htmlFor="location">Location</label>
         </div>
         <br />
