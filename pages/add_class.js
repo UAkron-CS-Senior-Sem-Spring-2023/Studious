@@ -72,6 +72,7 @@ const addClass = async (event) => {
   const location = event.target.location.value;
   const startTime = event.target.start_time.value;
   const endTime = event.target.end_time.value;
+  const email = localStorage.getItem('email');
 
   // create an array of selected days
   let selectedDays = [];
@@ -82,7 +83,6 @@ const addClass = async (event) => {
     for (let i = 0; i < days.length; i++) {
       if (days[i].checked) {
         selectedDays.push(days[i].value);
-        alert(days[i].value)
       }
     }
   } else {
@@ -93,7 +93,7 @@ const addClass = async (event) => {
   const data = {
     className: className,
     classLocation: location,
-    userEmail: 'brs137@osu.edu',
+    userEmail: email,
     startTime: new Date(),
     endTime: new Date(),
     days: selectedDays,
