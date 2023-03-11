@@ -4,6 +4,7 @@ import LoginSignupForm from "./login";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
 import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar } from "@chakra-ui/react";
+import cx from 'classnames'
 
 // check if the user is logged in- if not redirect them to the login page
 function CheckForLogin() {
@@ -63,9 +64,15 @@ function ProfileTab() {
 }
 
 export default function Home() {
-      // redirects to the home page
-    function redirectAddClass() {
-      window.location.href = '/add_class';
+
+    // redirects to the home page
+    function sendHome() {
+        window.location.href = '/';
+    }
+
+    // add a class to the database
+    const addClass = async (event) => {
+
     }
 
   return (
@@ -104,28 +111,34 @@ export default function Home() {
                 bg: "white",
                 cursor: "pointer",
               }}
-              onClick={ redirectAddClass }
+              onClick={sendHome}
             >
-              Add to Schedule
-            </Box>
-            <Box
-              border="1px solid black"
-              rounded="md"
-              p={4}
-              marginTop={10}
-              textAlign="center"
-              transition="background-color 0.5s ease"
-              _hover={{
-                bg: "white",
-                cursor: "pointer",
-              }}
-            >
-              Progress Tracking
+              Home
             </Box>
           </Box>
 
           {/* Main content goes here */}
 
+          <main className={cx(styles["form-signin"],"text-center","mt-5")}>
+        <br />
+        <br />
+        <br />
+      <form onSubmit={addClass}>
+        <div className="form-floating">
+          <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" />
+          <label htmlFor="email">Class name</label>
+        </div>
+        <div className="form-floating">
+          <input type="text" className="form-control" id="first_name" name="first_name" placeholder="Name" />
+          <label htmlFor="first_name">First name</label>
+        </div>
+        <div className="form-floating">
+          <input type="password" className="form-control" id="password" name="password" placeholder="Password" />
+          <label htmlFor="password">Password</label>
+        </div>
+        <button className="w-100 btn btn-lg btn-primary" type="submit">Add to Schedule</button>
+      </form>
+    </main>
 
           <Box bg="white" p={4} w="86%">
             <ProfileTab/>
