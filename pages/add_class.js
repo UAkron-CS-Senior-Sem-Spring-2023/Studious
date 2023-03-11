@@ -73,6 +73,9 @@ const addClass = async (event) => {
   const startTime = event.target.start_time.value;
   const endTime = event.target.end_time.value;
   const email = localStorage.getItem('email');
+  const color = event.target.color.value;
+
+  alert(startTime);
 
   // create an array of selected days
   let selectedDays = [];
@@ -94,10 +97,10 @@ const addClass = async (event) => {
     className: className,
     classLocation: location,
     userEmail: email,
-    startTime: new Date(),
-    endTime: new Date(),
+    startTime: new Date(`1970-01-01 ${startTime}:00`),
+    endTime: new Date(`1970-01-01 ${endTime}:00`),
     days: selectedDays,
-    color: 'red'
+    color: color
   }
 
   const JSONdata = JSON.stringify(data);
@@ -222,6 +225,17 @@ export default function Home() {
           <input type="checkbox" id="friday" name="days[]" value="Friday" />
           <label htmlFor="friday">Fri</label>
         </div>
+        <br />
+        <br />
+
+        <label for="color">Color:</label>
+        <select id="color" name="color">
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+        </select>
+
       </div>
         <br />
         <button className="w-100 btn btn-lg btn-primary" type="submit">Add to Schedule</button>
