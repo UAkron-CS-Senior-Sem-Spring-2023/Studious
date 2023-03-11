@@ -23,7 +23,27 @@ function CheckForLogin() {
 // displays the schedule
 function DisplaySchedule() {}
 
+// logout function - when called clears localstorage
+// function logoutFunc() {
+//   // clear the localstorage
+//   useEffect(() => {
+//     localStorage.removeItem('email')
+//   }, [])
+
+//   // redirect to the login page
+//   if (typeof window !== "undefined") {
+//     window.location.reload();
+//   }
+// }
+
 function ProfileTab() {
+  const logoutFunc = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem('email');
+      window.location.reload();
+    }
+  };
+
   return (
     <Box position="absolute" top="4" right="4">
     <Menu>
@@ -43,7 +63,7 @@ function ProfileTab() {
       <MenuList>
         <MenuItem>My Profile</MenuItem> {/*Link to account home*/}
         <MenuItem>Settings</MenuItem> {/*Link to account settings*/}
-        <MenuItem>Logout</MenuItem> {/*Link to Logout*/}
+        <MenuItem onClick={logoutFunc}>Logout</MenuItem>
       </MenuList>
     </Menu>
     </Box>
