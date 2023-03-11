@@ -12,7 +12,7 @@ const ClassSchema = mongoose.Schema({
     },
     userEmail: {
         type: String,
-        required: false,
+        required: true,
     },
     startTime: {
         type: Date,
@@ -32,4 +32,4 @@ const ClassSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('ClassEntry', ClassSchema);
+module.exports = mongoose.models.ClassEntry || mongoose.model('ClassEntry', ClassSchema);

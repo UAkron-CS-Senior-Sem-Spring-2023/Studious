@@ -63,16 +63,64 @@ function ProfileTab() {
   )
 }
 
+// add a class to the database
+const addClass = async (event) => {
+  event.preventDefault(); 
+
+  // get the data from the form
+  const className = event.target.class_name.value;
+  const location = event.target.location.value;
+  const startTime = event.target.start_time.value;
+  const endTime = event.target.end_time.value;
+
+  // create an array of selected days
+  let selectedDays = [];
+  let days = document.querySelectorAll('input[type="checkbox"]');
+
+  if (days) {
+    // check that days is not null or undefined
+    for (let i = 0; i < days.length; i++) {
+      if (days[i].checked) {
+        selectedDays.push(days[i].value);
+        alert(days[i].value)
+      }
+    }
+  } else {
+    // handle error if days is null or undefined
+    alert('Error: days is not defined or is null');
+  }
+
+  const data = {
+    className: className,
+    classLocation: location,
+    userEmail: 'brs137@osu.edu',
+    startTime: new Date(),
+    endTime: new Date(),
+    days: selectedDays,
+    color: 'red'
+  }
+
+  const JSONdata = JSON.stringify(data);
+  const endpoint = '/api/classes';
+
+  const options = {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSONdata,
+    };
+
+  const response = await fetch(endpoint, options);
+  const result = await response.json();
+
+}
+
 export default function Home() {
 
     // redirects to the home page
     function sendHome() {
         window.location.href = '/';
-    }
-
-    // add a class to the database
-    const addClass = async (event) => {
-
     }
 
   return (
