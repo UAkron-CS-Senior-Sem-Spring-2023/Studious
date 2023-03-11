@@ -228,7 +228,7 @@ export default function Home() {
         <br />
         <br />
 
-        <label for="color">Color:</label>
+        <label htmlFor="color">Color:</label>
         <select id="color" name="color">
             <option value="red">Red</option>
             <option value="blue">Blue</option>
