@@ -119,23 +119,63 @@ export default function Home() {
 
           {/* Main content goes here */}
 
-          <main className={cx(styles["form-signin"],"text-center","mt-5")}>
+          <main className={cx(styles["form-signin"],"text-center","mt-5")} style={{ margin: '30px' }}>
         <br />
         <br />
         <br />
       <form onSubmit={addClass}>
+
+        {/* class name */}
         <div className="form-floating">
-          <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" />
-          <label htmlFor="email">Class name</label>
+          <input type="text" className="form-control" id="class_name" name="class_name" placeholder="" />
+          <label htmlFor="class_name">Class name</label>
         </div>
+        <br />
+
+
+        {/* class location */}
         <div className="form-floating">
-          <input type="text" className="form-control" id="first_name" name="first_name" placeholder="Name" />
-          <label htmlFor="first_name">First name</label>
+          <input type="text" className="form-control" id="location" name="location" placeholder="Name" />
+          <label htmlFor="location">Location</label>
         </div>
-        <div className="form-floating">
-          <input type="password" className="form-control" id="password" name="password" placeholder="Password" />
-          <label htmlFor="password">Password</label>
+        <br />
+
+        
+        {/* start time */}
+        <label htmlFor="start_time">Start Time: </label>
+        <input type="time" id="start_time" name="start_time" required></input>
+        <br></br>
+
+        {/* end time */}
+        <label htmlFor="end_time">End Time:</label>
+        <input type="time" id="end_time" name="end_time" required></input>
+
+        {/* days of the week */}
+        <div>
+          <br />
+        <p>Class days:</p>
+        <div className="form-check form-check-inline">
+          <input type="checkbox" id="monday" name="days[]" value="Monday" />
+          <label htmlFor="monday">Mon</label>
         </div>
+        <div className="form-check form-check-inline">
+          <input type="checkbox" id="tuesday" name="days[]" value="Tuesday" />
+          <label htmlFor="tuesday">Tues</label>
+        </div>
+        <div className="form-check form-check-inline">
+          <input type="checkbox" id="wednesday" name="days[]" value="Wednesday" />
+          <label htmlFor="wednesday">Wed</label>
+        </div>
+        <div className="form-check form-check-inline">
+          <input type="checkbox" id="thursday" name="days[]" value="Thursday" />
+          <label htmlFor="thursday">Thurs</label>
+        </div>
+        <div className="form-check form-check-inline">
+          <input type="checkbox" id="friday" name="days[]" value="Friday" />
+          <label htmlFor="friday">Fri</label>
+        </div>
+      </div>
+        <br />
         <button className="w-100 btn btn-lg btn-primary" type="submit">Add to Schedule</button>
       </form>
     </main>

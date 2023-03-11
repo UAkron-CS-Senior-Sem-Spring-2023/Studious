@@ -20,3 +20,10 @@
   padding: 4; 
   width:"10%"
 }
+
+.form-check-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+}
