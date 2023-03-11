@@ -125,7 +125,7 @@ export default function Home() {
           </Box>
 
           {/* Main content goes here */}
-
+           <h1>Schedule</h1>
 
           <Box bg="white" p={4} w="86%">
             <ProfileTab/>
