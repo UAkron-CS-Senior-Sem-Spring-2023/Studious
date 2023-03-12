@@ -10,9 +10,9 @@ export default async (req, res) => {
     switch (method) {
         case 'POST':
             try {
-                const isReal = await User.findOne({ email, password });
-                if (isReal) {
-                    res.status(200).json({ exists: true });
+                const currUser = await User.findOne({ email, password });
+                if (currUser) {
+                    res.status(200).json({ exists: true, first_name: currUser.first_name });
                 } else {
                     res.status(200).json({ exists: false });
                 }

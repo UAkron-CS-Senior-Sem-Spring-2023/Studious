@@ -32,8 +32,9 @@ const LoginSignupForm = () => {
 
     // check if the result from the API is valid
     if (result.exists) {
-      // login is valid, set the localStorage field for email
+      // login is valid, set the localStorage field for email and first name
       localStorage.setItem('email', event.target.email.value);
+      localStorage.setItem('first_name', result.first_name)
 
       // redirect the user back to the home page
       window.location.href = '/';

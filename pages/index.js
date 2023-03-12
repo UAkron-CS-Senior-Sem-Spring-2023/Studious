@@ -21,9 +21,71 @@ function CheckForLogin() {
 }
 
 // displays the schedule
-function DisplaySchedule() {}
+function DisplaySchedule() {
+  const [classEntries, setClassEntries] = useState([]);
+
+  // get the email address of the user
+  useEffect(() => {
+    let email = localStorage.getItem("email");
+    
+    // build the query for the API
+    const queryString = `/api/classes?email=${email}`;
+
+    fetch(queryString)
+      .then(response => response.json())
+      .then(data => setClassEntries(data.data))
+      .catch(error => console.error(error))
+  }, []);
+
+  function formatTime(timeString) {
+    const dateObj = new Date(timeString);
+    let hours = dateObj.getHours();
+    const minutes = dateObj.getMinutes();
+    let timeOfDay = "";
+
+    if (hours > 12) {
+      hours-=12;
+      timeOfDay = "PM";
+    } else {
+      timeOfDay = "AM";
+    }
+
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+
+    return `${hours}:${formattedMinutes} ${timeOfDay}`
+  }
+
+  // display the results
+  return (
+    <div>
+      {classEntries.map(entry => (
+        <div key={entry._id}>
+          <h2><b>{entry.className}</b></h2>
+          <p>{entry.classLocation}</p>
+          <p>Start time: {formatTime(entry.startTime)} </p>
+          <p>End time: {formatTime(entry.endTime)}</p>
+          <p>{entry.days.join(", ")}</p>
+          <br />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function ProfileTab() {
+
+  // logout function
+  const logoutFunc = () => {
+    if (typeof window !== "undefined") {
+      // remove the 'email' and 'first_name' fields from local storage
+      localStorage.removeItem('email');
+      localStorage.removeItem('first_name');
+
+      // reload the page- this will take the user to the home page
+      window.location.reload();
+    }
+  };
+
   return (
     <Box position="absolute" top="4" right="4">
     <Menu>
@@ -43,7 +105,7 @@ function ProfileTab() {
       <MenuList>
         <MenuItem>My Profile</MenuItem> {/*Link to account home*/}
         <MenuItem>Settings</MenuItem> {/*Link to account settings*/}
-        <MenuItem>Logout</MenuItem> {/*Link to Logout*/}
+        <MenuItem onClick={logoutFunc}>Logout</MenuItem>
       </MenuList>
     </Menu>
     </Box>
@@ -51,6 +113,11 @@ function ProfileTab() {
 }
 
 export default function Home() {
+      // redirects to the home page
+    function redirectAddClass() {
+      window.location.href = '/add_class';
+    }
+
   return (
     <>
       <Head>
@@ -58,8 +125,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/studious-website-favicon-black.png" />
       </Head>
+
       {/* On load, check if the user is logged in. If they are not, redirect them to the login page, which will redirect them back here after they login */}
       <CheckForLogin />
+
       <Flex minH="100vh" flexDirection="column">
         <Flex flex={1}>
           {/* Sidebar */}
@@ -85,6 +154,7 @@ export default function Home() {
                 bg: "white",
                 cursor: "pointer",
               }}
+              onClick={ redirectAddClass }
             >
               Add to Schedule
             </Box>
@@ -103,7 +173,9 @@ export default function Home() {
               Progress Tracking
             </Box>
           </Box>
-          {/* Main content */}
+
+          {/* Main content goes here */}
+
           <Box bg="white" p={4} w="86%">
             <ProfileTab/>
             <DisplaySchedule />
@@ -113,7 +185,6 @@ export default function Home() {
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>
       </Flex>
-      
     </>
   );
 }
