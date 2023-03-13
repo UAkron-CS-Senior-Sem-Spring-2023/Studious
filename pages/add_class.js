@@ -136,10 +136,10 @@ export default function Home() {
       {/* On load, check if the user is logged in. If they are not, redirect them to the login page, which will redirect them back here after they login */}
       <CheckForLogin />
 
-      <Flex minH="100vh" flexDirection="column">
+      <Flex minH="100vh" flexDirection="column" bgGradient='linear(to-tr, gray.200 25%, blue.400 75%)'>
         <Flex flex={1}>
           {/* Sidebar */}
-          <Box bg="gray.200" p={4} w="14%" h="100vh" rounded="xl">
+          <Box p={4}  h="100vh" rounded="xl">
             <Link href="/">
               <Image
                 alignContent="center"
@@ -242,12 +242,12 @@ export default function Home() {
       </form>
     </main>
 
-          <Box bg="white" p={4} w="86%">
+          <Box p={4}>
             <ProfileTab/>
             <DisplaySchedule />
           </Box>
         </Flex>
-        <Box bg="gray.200" p={4}>
+        <Box p={4}>
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>
       </Flex>
