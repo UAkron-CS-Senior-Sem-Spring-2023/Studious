@@ -118,6 +118,10 @@ export default function Home() {
       window.location.href = '/add_class';
     }
 
+    function redirectAddTask() {
+      window.location.href = 'add_task';
+    }
+
   return (
     <>
       <Head>
@@ -156,8 +160,25 @@ export default function Home() {
               }}
               onClick={ redirectAddClass }
             >
-              Add to Schedule
+              Add Class
             </Box>
+
+            <Box
+              border="1px solid black"
+              rounded="md"
+              p={4}
+              marginTop={10}
+              textAlign="center"
+              transition="background-color 0.5s ease"
+              _hover={{
+                bg: "white",
+                cursor: "pointer",
+              }}
+              onClick={ redirectAddTask }
+            >
+              Add Task
+            </Box>
+
             <Box
               border="1px solid black"
               rounded="md"
