@@ -64,6 +64,45 @@ function ProfileTab() {
   )
 }
 
+// add a task to the database
+const addTask = async (event) => {
+  event.preventDefault();
+
+  // get the data from the form
+  const taskName = event.target.task_name.value;
+  const taskDescription = event.target.task_description.value;
+  const taskTime = event.target.taskHours.value + event.target.taskFraction.value;
+  const userEmail = localStorage.getItem('email');
+  const priorityLevel = event.target.priority_level.value;
+  const color = event.target.color.value;
+
+  // build the JSON for the initial task creation request
+  const data = {
+    TaskName: taskName,
+    taskDescription: taskDescription,
+    taskPriority: priorityLevel,
+    userEmail: userEmail,
+    startTime: null,
+    endTime: null,
+    color: color,
+    timeEstimate: taskTime,
+  };
+
+  const JSONdata = JSON.stringify(data);
+  const endpoint = '/api/tasks';
+
+  const options = {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSONdata,
+    };
+
+  const response = await fetch(endpoint, options);
+  const result = await response.json();
+}
+
 // add a class to the database
 const addClass = async (event) => {
   event.preventDefault(); 
@@ -115,7 +154,7 @@ const addClass = async (event) => {
 
   const response = await fetch(endpoint, options);
   const result = await response.json();
-
+  console.log(result);
 }
 
 export default function Home() {
@@ -173,7 +212,7 @@ export default function Home() {
         <br />
         <br />
         <br />
-      <form onSubmit={addClass}>
+      <form onSubmit={addTask}>
 
         {/* task name */}
         <div className="form-floating">
@@ -185,27 +224,41 @@ export default function Home() {
 
         {/* task description */}
         <div className="form-floating">
-          <input type="text" className="form-control" id="ttask_description" name="task_description" placeholder="Task description" />
+          <input type="text" className="form-control" id="task_description" name="task_description" placeholder="Task description" />
           <label htmlFor="task_description">Notes</label>
         </div>
         <br />
 
         {/* time estimate here */}
-        <label htmlFor="est_time">Estimated Time: </label>
-        <input type="time" id="est_time" name="start_time" required></input>
-        <br />
-        <br />
+        <div>
+          <label htmlFor="taskHours">Estimated time (hours):</label>
+          <br></br>
+          <select id="taskHours" name="taskHours">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
 
-        {/* start time */}
-        <label htmlFor="start_time">Start Time: </label>
-        <input type="time" id="start_time" name="start_time" required></input>
-        <br></br>
-
-        {/* end time */}
-        <label htmlFor="end_time">End Time:</label>
-        <input type="time" id="end_time" name="end_time" required></input>
-        <br />
-        <br />
+          <label htmlFor="taskFraction">.</label>
+          <select id="taskFraction" name="taskFraction">
+            <option value="0">0</option>
+            <option value="0.25">25</option>
+            <option value="0.5">5</option>
+            <option value="0.75">75</option>
+          </select>
+          <br />
+          <br />
+        </div>
 
         {/* priority level */}
         <label htmlFor="priority_level">Priority Level:</label>
@@ -214,8 +267,6 @@ export default function Home() {
             <option value="2">Medium</option>
             <option value="3">Low</option>
         </select>
-
-        <br />
         <br />
 
         {/* color of class */}
@@ -228,7 +279,8 @@ export default function Home() {
         </select>
 
         <br />
-        <button className="w-100 btn btn-lg btn-primary" type="submit">Add to Schedule</button>
+        <br />
+        <button className="w-100 btn btn-lg btn-primary" type="submit">Create Task</button>
       </form>
     </main>
 
