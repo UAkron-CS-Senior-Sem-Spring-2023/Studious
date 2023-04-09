@@ -82,8 +82,8 @@ const addTask = async (event) => {
     taskDescription: taskDescription,
     taskPriority: priorityLevel,
     userEmail: userEmail,
-    startTime: null,
-    endTime: null,
+    startTime: new Date(0),
+    endTime: new Date(0),
     color: color,
     timeEstimate: taskTime,
   };

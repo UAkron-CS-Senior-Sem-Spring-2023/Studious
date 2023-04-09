@@ -22,10 +22,12 @@ const TaskSchema = mongoose.Schema({
     startTime: {
         type: Date,
         required: false,
+        default: new Date(0),
     },
     endTime: {
         type: Date,
         required: false,
+        default: new Date(0),
     },
     color: {
         type: String,
