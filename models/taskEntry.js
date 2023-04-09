@@ -9,22 +9,31 @@ const TaskSchema = mongoose.Schema({
     taskDescription: {
         type: String,
         required: false,
-    },    
+    },
+    taskPriority: {
+        type: Number,
+        required: false,
+    }
+    ,    
     userEmail: {
         type: String,
         required: true,
     },
     startTime: {
         type: Date,
-        required: [true, 'Please add a start time'],
+        required: false,
     },
     endTime: {
         type: Date,
-        required: [true, 'Please add an end time'],
+        required: false,
     },
     color: {
         type: String,
         required: [true, 'Please add a color'],
+    },
+    timeEstimate: {
+        type: Number,
+        required: false,
     }
 });
 

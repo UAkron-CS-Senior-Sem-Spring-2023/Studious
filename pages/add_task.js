@@ -175,22 +175,27 @@ export default function Home() {
         <br />
       <form onSubmit={addClass}>
 
-        {/* class name */}
+        {/* task name */}
         <div className="form-floating">
-          <input type="text" className="form-control" id="class_name" name="class_name" placeholder="Class Name" />
-          <label htmlFor="class_name">Class name</label>
+          <input type="text" className="form-control" id="task_name" name="task_name" placeholder="Task Name" />
+          <label htmlFor="task_name">Task name</label>
         </div>
         <br />
 
 
-        {/* class location */}
+        {/* task description */}
         <div className="form-floating">
-          <input type="text" className="form-control" id="location" name="location" placeholder="Location" />
-          <label htmlFor="location">Location</label>
+          <input type="text" className="form-control" id="ttask_description" name="task_description" placeholder="Task description" />
+          <label htmlFor="task_description">Notes</label>
         </div>
         <br />
 
-        
+        {/* time estimate here */}
+        <label htmlFor="est_time">Estimated Time: </label>
+        <input type="time" id="est_time" name="start_time" required></input>
+        <br />
+        <br />
+
         {/* start time */}
         <label htmlFor="start_time">Start Time: </label>
         <input type="time" id="start_time" name="start_time" required></input>
@@ -199,31 +204,17 @@ export default function Home() {
         {/* end time */}
         <label htmlFor="end_time">End Time:</label>
         <input type="time" id="end_time" name="end_time" required></input>
+        <br />
+        <br />
 
-        {/* days of the week */}
-        <div>
-          <br />
-        <p>Class days:</p>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="monday" name="days[]" value="Monday" />
-          <label htmlFor="monday">Mon</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="tuesday" name="days[]" value="Tuesday" />
-          <label htmlFor="tuesday">Tues</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="wednesday" name="days[]" value="Wednesday" />
-          <label htmlFor="wednesday">Wed</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="thursday" name="days[]" value="Thursday" />
-          <label htmlFor="thursday">Thurs</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="friday" name="days[]" value="Friday" />
-          <label htmlFor="friday">Fri</label>
-        </div>
+        {/* priority level */}
+        <label htmlFor="priority_level">Priority Level:</label>
+        <select id="priority_level" name="priority_level">
+            <option value="1">High</option>
+            <option value="2">Medium</option>
+            <option value="3">Low</option>
+        </select>
+
         <br />
         <br />
 
@@ -236,7 +227,6 @@ export default function Home() {
             <option value="yellow">Yellow</option>
         </select>
 
-      </div>
         <br />
         <button className="w-100 btn btn-lg btn-primary" type="submit">Add to Schedule</button>
       </form>

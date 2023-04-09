@@ -11,7 +11,7 @@ export default async (req, res) => {
             try {
                 // getting the email from the query string
                 const { email } = req.query;
-                const classEntries = await  TaskEntry.find({ userEmail: email });
+                const TaskEntries = await  TaskEntry.find({ userEmail: email });
                 res.status(200).json({ success: true, data: TaskEntries });
             } catch (error) {
                 res.status(400).json({ success: false });
@@ -19,14 +19,12 @@ export default async (req, res) => {
             break;
         case 'POST':
             try {
-                
-                const classEntry = await TaskEntry.create(req.body);
-                res.status(201).json({ success: true, data: TaskEntry });
-                break;
-            } catch (error) {
+                const newTaskEntry = await TaskEntry.create(req.body);
+                res.status(201).json({ success: true, data: newTaskEntry });
+              } catch (error) {
                 res.status(400).json({ success: false });
-            }
-            break;
+              }
+              break;
         default:
             res.status(400).json({ success: false });
     }
