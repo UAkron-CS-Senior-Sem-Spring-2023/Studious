@@ -71,7 +71,7 @@ const addTask = async (event) => {
   // get the data from the form
   const taskName = event.target.task_name.value;
   const taskDescription = event.target.task_description.value;
-  const taskTime = event.target.taskHours.value + event.target.taskFraction.value;
+  const taskTime = parseInt(event.target.taskHours.value) + parseFloat(event.target.taskFraction.value);
   const userEmail = localStorage.getItem('email');
   const priorityLevel = event.target.priority_level.value;
   const color = event.target.color.value;
