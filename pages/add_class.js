@@ -1,10 +1,28 @@
 import Head from "next/head";
 import Link from "next/link";
+import FullCalendar from "@fullcalendar/react"; // must go before plugins
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import LoginSignupForm from "./login";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
-import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar } from "@chakra-ui/react";
-import cx from 'classnames'
+import {
+  Box,
+  Heading,
+  Text,
+  Image,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
+  FormControl,
+  FormLabel,
+  Input,
+  Checkbox,
+  Select,
+  Button,
+} from "@chakra-ui/react";
 
 // check if the user is logged in- if not redirect them to the login page
 function CheckForLogin() {
@@ -21,59 +39,16 @@ function CheckForLogin() {
   }, []);
 }
 
-// displays the schedule
-function DisplaySchedule() {}
-
-function ProfileTab() {
-
-  // logout function
-  const logoutFunc = () => {
-    if (typeof window !== "undefined") {
-      // remove the 'email' and 'first_name' fields from local storage
-      localStorage.removeItem('email');
-      localStorage.removeItem('first_name');
-
-      // reload the page- this will take the user to the home page
-      window.location.reload();
-    }
-  };
-
-  return (
-    <Box position="absolute" top="4" right="4">
-    <Menu>
-      <MenuButton
-        as={Avatar}
-        size="md"
-        p="4"
-        name="John doe" /*Display their First Name from database*/
-        src=""
-        bg="gray.200"
-        transition="border 0.5s ease"
-        _hover={{
-          border: "1px solid black",
-          cursor: "pointer",
-        }}
-      />
-      <MenuList>
-        <MenuItem>My Profile</MenuItem> {/*Link to account home*/}
-        <MenuItem>Settings</MenuItem> {/*Link to account settings*/}
-        <MenuItem onClick={logoutFunc}>Logout</MenuItem>
-      </MenuList>
-    </Menu>
-    </Box>
-  )
-}
-
 // add a class to the database
 const addClass = async (event) => {
-  event.preventDefault(); 
+  event.preventDefault();
 
   // get the data from the form
   const className = event.target.class_name.value;
   const location = event.target.location.value;
   const startTime = event.target.start_time.value;
   const endTime = event.target.end_time.value;
-  const email = localStorage.getItem('email');
+  const email = localStorage.getItem("email");
   const color = event.target.color.value;
 
   // create an array of selected days
@@ -89,7 +64,7 @@ const addClass = async (event) => {
     }
   } else {
     // handle error if days is null or undefined
-    alert('Error: days is not defined or is null');
+    alert("Error: days is not defined or is null");
   }
 
   const data = {
@@ -98,32 +73,80 @@ const addClass = async (event) => {
     userEmail: email,
     startTime: new Date(`1970-01-01 ${startTime}:00`),
     endTime: new Date(`1970-01-01 ${endTime}:00`),
-    days: selectedDays,
-    color: color
+    daysOfWeek: selectedDays,
+    color: color,
+  };
+
+  try {
+    // make a POST request to the API to add the class
+    const response = await fetch("/api/classes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      // handle error if response is not ok
+      throw new Error("Error adding class");
+    }
+
+    // refresh the page to display the new class
+    window.location.reload();
+  } catch (error) {
+    console.log(error);
+    alert("Error adding class");
   }
+};
 
-  const JSONdata = JSON.stringify(data);
-  const endpoint = '/api/classes';
+function ProfileTab() {
+  // logout function
+  const logoutFunc = () => {
+    if (typeof window !== "undefined") {
+      // remove the 'email' and 'first_name' fields from local storage
+      localStorage.removeItem("email");
+      localStorage.removeItem("first_name");
 
-  const options = {
-    method: 'POST',
-    headers: {
-    'Content-Type': 'application/json'
-    },
-    body: JSONdata,
-    };
+      // reload the page- this will take the user to the home page
+      window.location.reload();
+    }
+  };
 
-  const response = await fetch(endpoint, options);
-  const result = await response.json();
-
+  return (
+    <Box position="absolute" top="4" right="4">
+      <Menu>
+        <MenuButton
+          as={Avatar}
+          size="md"
+          p="4"
+          name="John doe" /*Display their First Name from database*/
+          src=""
+          bg="gray.200"
+          transition="border 0.5s ease"
+          _hover={{
+            border: "1px solid black",
+            cursor: "pointer",
+          }}
+        />
+        <MenuList>
+          <MenuItem>My Profile</MenuItem> {/*Link to account home*/}
+          <MenuItem>Settings</MenuItem> {/*Link to account settings*/}
+          <MenuItem onClick={logoutFunc}>Logout</MenuItem>
+        </MenuList>
+      </Menu>
+    </Box>
+  );
 }
 
 export default function Home() {
+  // redirects to the home page
+  function sendHome() {
+    window.location.href = "/";
+  }
 
-    // redirects to the home page
-    function sendHome() {
-        window.location.href = '/';
-    }
+  function redirectAddTask() {
+    window.location.href = "add_task";
+  }
 
   return (
     <>
@@ -136,10 +159,14 @@ export default function Home() {
       {/* On load, check if the user is logged in. If they are not, redirect them to the login page, which will redirect them back here after they login */}
       <CheckForLogin />
 
-      <Flex minH="100vh" flexDirection="column" bgGradient='linear(to-tr, gray.200 25%, blue.400 75%)'>
+      <Flex
+        minH="100vh"
+        flexDirection="column"
+        bgGradient="linear(blue.100 0%, blue.50 25%, white.100 50%)"
+      >
         <Flex flex={1}>
           {/* Sidebar */}
-          <Box p={4}  h="100vh" rounded="xl">
+          <Box p={4} h="100vh" rounded="xl">
             <Link href="/">
               <Image
                 alignContent="center"
@@ -165,86 +192,106 @@ export default function Home() {
             >
               Home
             </Box>
+
+            <Box
+              border="1px solid black"
+              rounded="md"
+              p={4}
+              marginTop={10}
+              textAlign="center"
+              transition="background-color 0.5s ease"
+              _hover={{
+                bg: "white",
+                cursor: "pointer",
+              }}
+              onClick={redirectAddTask}
+            >
+              Add Task
+            </Box>
+
+            <Box
+              border="1px solid black"
+              rounded="md"
+              p={4}
+              marginTop={10}
+              textAlign="center"
+              transition="background-color 0.5s ease"
+              _hover={{
+                bg: "white",
+                cursor: "pointer",
+              }}
+            >
+              Progress Tracking
+            </Box>
           </Box>
 
           {/* Main content goes here */}
 
-          <main className={cx(styles["form-signin"],"text-center","mt-5")} style={{ margin: '30px' }}>
-        <br />
-        <br />
-        <br />
-      <form onSubmit={addClass}>
+          <Box p={4} w="82%" mt={8}>
+            <ProfileTab />
 
-        {/* class name */}
-        <div className="form-floating">
-          <input type="text" className="form-control" id="class_name" name="class_name" placeholder="Class Name" />
-          <label htmlFor="class_name">Class name</label>
-        </div>
-        <br />
+            <form onSubmit={addClass}>
+              <FormControl id="class_name" isRequired>
+                <FormLabel>Class Name</FormLabel>
+                <Input type="text" placeholder="Enter class name" />
+              </FormControl>
 
+              <FormControl id="location" isRequired mt="4">
+                <FormLabel>Location</FormLabel>
+                <Input type="text" placeholder="Enter class location" />
+              </FormControl>
 
-        {/* class location */}
-        <div className="form-floating">
-          <input type="text" className="form-control" id="location" name="location" placeholder="Location" />
-          <label htmlFor="location">Location</label>
-        </div>
-        <br />
+              <FormControl id="start_time" isRequired mt="4">
+                <FormLabel>Start Time</FormLabel>
+                <Input type="time" />
+              </FormControl>
 
-        
-        {/* start time */}
-        <label htmlFor="start_time">Start Time: </label>
-        <input type="time" id="start_time" name="start_time" required></input>
-        <br></br>
+              <FormControl id="end_time" isRequired mt="4">
+                <FormLabel>End Time</FormLabel>
+                <Input type="time" />
+              </FormControl>
 
-        {/* end time */}
-        <label htmlFor="end_time">End Time:</label>
-        <input type="time" id="end_time" name="end_time" required></input>
+              <FormControl id="days_of_week" isRequired mt="4">
+                <FormLabel>Days of the week</FormLabel>
+                <Flex>
+                  <Checkbox value="Monday" mr="2">
+                    Monday
+                  </Checkbox>
+                  <Checkbox value="Tuesday" mr="2">
+                    Tuesday
+                  </Checkbox>
+                  <Checkbox value="Wednesday" mr="2">
+                    Wednesday
+                  </Checkbox>
+                  <Checkbox value="Thursday" mr="2">
+                    Thursday
+                  </Checkbox>
+                  <Checkbox value="Friday" mr="2">
+                    Friday
+                  </Checkbox>
+                  <Checkbox value="Saturday" mr="2">
+                    Saturday
+                  </Checkbox>
+                  <Checkbox value="Sunday">Sunday</Checkbox>
+                </Flex>
+              </FormControl>
 
-        {/* days of the week */}
-        <div>
-          <br />
-        <p>Class days:</p>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="monday" name="days[]" value="Monday" />
-          <label htmlFor="monday">Mon</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="tuesday" name="days[]" value="Tuesday" />
-          <label htmlFor="tuesday">Tues</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="wednesday" name="days[]" value="Wednesday" />
-          <label htmlFor="wednesday">Wed</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="thursday" name="days[]" value="Thursday" />
-          <label htmlFor="thursday">Thurs</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input type="checkbox" id="friday" name="days[]" value="Friday" />
-          <label htmlFor="friday">Fri</label>
-        </div>
-        <br />
-        <br />
+              <FormControl id="color" isRequired mt="4">
+                <FormLabel>Color</FormLabel>
+                <Select placeholder="Select color">
+                  <option value="red">Red</option>
+                  <option value="blue">Blue</option>
+                  <option value="green">Green</option>
+                  <option value="purple">Purple</option>
+                  <option value="orange">Orange</option>
+                  <option value="yellow">Yellow</option>
+                </Select>
+              </FormControl>
 
-        {/* color of class */}
-        <label htmlFor="color">Color:</label>
-        <select id="color" name="color">
-            <option value="red">Red</option>
-            <option value="blue">Blue</option>
-            <option value="green">Green</option>
-            <option value="yellow">Yellow</option>
-        </select>
-
-      </div>
-        <br />
-        <button className="w-100 btn btn-lg btn-primary" type="submit">Add to Schedule</button>
-      </form>
-    </main>
-
-          <Box p={4}>
-            <ProfileTab/>
-            <DisplaySchedule />
+              <Button type="submit" colorScheme="teal" mt="4">
+                Add Class
+              </Button>
+            </form>
           </Box>
         </Flex>
         <Box p={4}>

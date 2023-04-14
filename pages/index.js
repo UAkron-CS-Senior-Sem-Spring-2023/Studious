@@ -1,5 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
+import FullCalendar from '@fullcalendar/react' // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import LoginSignupForm from "./login";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
@@ -20,54 +22,38 @@ function CheckForLogin() {
   }, []);
 }
 
-// displays the schedule
-function DisplaySchedule() {
-  const [classEntries, setClassEntries] = useState([]);
 
-  // get the email address of the user
+function DisplaySchedule() {
+  const [events, setEvents] = useState([]);
+
   useEffect(() => {
     let email = localStorage.getItem("email");
     
-    // build the query for the API
     const queryString = `/api/classes?email=${email}`;
 
     fetch(queryString)
       .then(response => response.json())
-      .then(data => setClassEntries(data.data))
+      .then(data => {
+        const events = data.data.map(entry => {
+          return {
+            title: entry.className,
+            start: entry.startDate,
+            end: entry.endDate,
+            backgroundColor: '#f0ad4e'
+          };
+        });
+        setEvents(events);
+      })
       .catch(error => console.error(error))
   }, []);
 
-  function formatTime(timeString) {
-    const dateObj = new Date(timeString);
-    let hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
-    let timeOfDay = "";
-
-    if (hours > 12) {
-      hours-=12;
-      timeOfDay = "PM";
-    } else {
-      timeOfDay = "AM";
-    }
-
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
-
-    return `${hours}:${formattedMinutes} ${timeOfDay}`
-  }
-
-  // display the results
   return (
     <div>
-      {classEntries.map(entry => (
-        <div key={entry._id}>
-          <h2><b>{entry.className}</b></h2>
-          <p>{entry.classLocation}</p>
-          <p>Start time: {formatTime(entry.startTime)} </p>
-          <p>End time: {formatTime(entry.endTime)}</p>
-          <p>{entry.days.join(", ")}</p>
-          <br />
-        </div>
-      ))}
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        events={events}
+      />
     </div>
   );
 }
@@ -133,7 +119,7 @@ export default function Home() {
       {/* On load, check if the user is logged in. If they are not, redirect them to the login page, which will redirect them back here after they login */}
       <CheckForLogin />
 
-      <Flex minH="100vh" flexDirection="column" bgGradient='linear(to-r, gray.200 25%, blue.400 75%)'>
+      <Flex minH="100vh" flexDirection="column" bgGradient='linear(blue.100 0%, blue.50 25%, white.100 50%)'>
         <Flex flex={1}>
           {/* Sidebar */}
           <Box p={4}  h="100vh" rounded="xl" >
