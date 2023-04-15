@@ -80,14 +80,22 @@ function DisplaySchedule() {
               date.setDate(date.getDate() + 1);
             }
 
-            console.log(dates);
-
             // for each of these, create the event for the class and push it to the schedule
             for (let x = 0; x < dates.length; x++) {
               const dateObject = new Date(dates[x]);
               const today = new Date();
+
+              // get the hours and minutes for the start and end times from the entry array
+
+              // create the name string for the entry, which will have the times
+
+              // TODO: Add the hour and minutes for the start time of the event to the string below
+              const buildClassName = entry.className;
+
+              console.log(entry);
+
               const currEvent = {
-                title: entry.className,
+                title: buildClassName,
                 start: dateObject,
                 end: dateObject,
                 backgroundColor: '#f0ad4e'
@@ -102,29 +110,6 @@ function DisplaySchedule() {
           // push to the events array here
           setEvents(events);
         }
-
-        // const events = data.data.map(entry => {
-        //   return {
-        //     title: entry.className,
-        //     start: entry.startDate,
-        //     end: entry.endDate,
-        //     backgroundColor: '#f0ad4e'
-        //   };
-        // });
-
-                // Create a new event for today
-                const today = new Date();
-                const todayEvent = {
-                  title: "Algorithms (5:00 - 6:00)",
-                  start: today,
-                  end: today,
-                  backgroundColor: "#007bff"
-                };
-                
-                // Add the new event to the events array
-                events.push(todayEvent);
-                
-        setEvents(events);
       })
       .catch(error => console.error(error))
   }, []);
@@ -135,6 +120,7 @@ function DisplaySchedule() {
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
         events={events}
+        timeFormat=""
       />
     </div>
   );

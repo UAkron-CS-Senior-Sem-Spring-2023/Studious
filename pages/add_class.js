@@ -53,10 +53,11 @@ const addClass = async (event) => {
 
   // create an array of selected days
   let selectedDays = [];
-  let days = document.querySelectorAll('input[type="checkbox"]');
+  let daysOfWeek = document.getElementsByName('days');
 
-  if (days) {
+  /*if (days) {
     // check that days is not null or undefined
+    console.log(days);
     for (let i = 0; i < days.length; i++) {
       if (days[i].checked) {
         selectedDays.push(days[i].value);
@@ -65,7 +66,12 @@ const addClass = async (event) => {
   } else {
     // handle error if days is null or undefined
     alert("Error: days is not defined or is null");
-  }
+  }*/
+  daysOfWeek.forEach((day) => {
+    if (day.checked) {
+      selectedDays.push(day.value);
+    }
+  })
 
   const data = {
     className: className,
@@ -73,9 +79,11 @@ const addClass = async (event) => {
     userEmail: email,
     startTime: new Date(`1970-01-01 ${startTime}:00`),
     endTime: new Date(`1970-01-01 ${endTime}:00`),
-    daysOfWeek: selectedDays,
+    days: selectedDays,
     color: color,
   };
+
+  console.log(data);
 
   try {
     // make a POST request to the API to add the class
@@ -92,7 +100,7 @@ const addClass = async (event) => {
     }
 
     // refresh the page to display the new class
-    window.location.reload();
+    //window.location.reload();
   } catch (error) {
     console.log(error);
     alert("Error adding class");
@@ -251,28 +259,28 @@ export default function Home() {
                 <Input type="time" />
               </FormControl>
 
-              <FormControl id="days_of_week" isRequired mt="4">
+              <FormControl id="days_of_week" mt="4">
                 <FormLabel>Days of the week</FormLabel>
                 <Flex>
-                  <Checkbox value="Monday" mr="2">
+                  <Checkbox value="Monday" name="days" mr="2">
                     Monday
                   </Checkbox>
-                  <Checkbox value="Tuesday" mr="2">
+                  <Checkbox value="Tuesday" name="days" mr="2">
                     Tuesday
                   </Checkbox>
-                  <Checkbox value="Wednesday" mr="2">
+                  <Checkbox value="Wednesday" name="days" mr="2">
                     Wednesday
                   </Checkbox>
-                  <Checkbox value="Thursday" mr="2">
+                  <Checkbox value="Thursday" name="days" mr="2">
                     Thursday
                   </Checkbox>
-                  <Checkbox value="Friday" mr="2">
+                  <Checkbox value="Friday" name="days" mr="2">
                     Friday
                   </Checkbox>
-                  <Checkbox value="Saturday" mr="2">
+                  <Checkbox value="Saturday" name="days" mr="2">
                     Saturday
                   </Checkbox>
-                  <Checkbox value="Sunday">Sunday</Checkbox>
+                  <Checkbox value="Sunday" name="days" mr="2">Sunday</Checkbox>
                 </Flex>
               </FormControl>
 
