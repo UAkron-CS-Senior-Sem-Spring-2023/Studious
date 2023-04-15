@@ -84,12 +84,12 @@ function DisplaySchedule() {
 
             // for each of these, create the event for the class and push it to the schedule
             for (let x = 0; x < dates.length; x++) {
-              const dateObject = dates.map(date => new Date(date));
+              const dateObject = new Date(dates[x]);
               const today = new Date();
               const currEvent = {
-                title: 'a test event',
-                start: today,
-                end: today,
+                title: entry.className,
+                start: dateObject,
+                end: dateObject,
                 backgroundColor: '#f0ad4e'
               }
 
