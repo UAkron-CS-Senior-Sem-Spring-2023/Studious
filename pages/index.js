@@ -24,16 +24,18 @@ function CheckForLogin() {
 
 
 function DisplaySchedule() {
+
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     let email = localStorage.getItem("email");
-    
     const queryString = `/api/classes?email=${email}`;
 
     fetch(queryString)
       .then(response => response.json())
       .then(data => {
+        console.log(data);
+
         const events = data.data.map(entry => {
           return {
             title: entry.className,
@@ -42,6 +44,88 @@ function DisplaySchedule() {
             backgroundColor: '#f0ad4e'
           };
         });
+
+        for (let i = 0; i < data.data.length; i++) {
+          
+          // getting the class
+          const entry = data.data[i];
+
+          // for all days that this current entry occurs
+          for (let j = 0; j < entry.days.length; j++) {
+            // TODO: create events for all days this month
+            const year = 2023;
+            const month = 3; // JavaScript months are zero-indexed, so April is month 3
+            const dayOfWeekString = entry.days[j];
+
+            // associative array for the days of the week
+            const dayChart = {
+              'Sunday': 0,
+              'Monday': 1, 
+              'Tuesday': 2,
+              'Wednesday': 3,
+              'Thursday': 4,
+              'Friday': 5,
+              'Saturday': 6,
+            };
+
+            const dayOfWeek = dayChart[dayOfWeekString]; // Monday is day 1 of the week (Sunday is 0): will need to convert the days array to this value
+
+            const dates = [];
+
+            const date = new Date(year, month, 1);
+            while (date.getMonth() === month) {
+              if (date.getDay() === dayOfWeek) {
+                dates.push(new Date(date));
+              }
+              date.setDate(date.getDate() + 1);
+            }
+
+            console.log(dates);
+
+            // for each of these, create the event for the class and push it to the schedule
+            for (let x = 0; x < dates.length; x++) {
+              const dateObject = dates.map(date => new Date(date));
+              const currEvent = {
+                title: entry.className,
+                start: entry.startDate,
+                end: entry.endDate,
+                backgroundColor: '#f0ad4e'
+              }
+              
+              events.push(currEvent);
+            }
+          }
+          
+          // push to the events array here
+        }
+
+
+
+
+
+
+
+        // const events = data.data.map(entry => {
+        //   return {
+        //     title: entry.className,
+        //     start: entry.startDate,
+        //     end: entry.endDate,
+        //     backgroundColor: '#f0ad4e'
+        //   };
+        // });
+
+                // Create a new event for today
+                const today = new Date();
+                const todayEvent = {
+                  title: "Algorithms (5:00 - 6:00)",
+                  start: today,
+                  end: today,
+                  backgroundColor: "#007bff"
+                };
+                
+                // Add the new event to the events array
+                events.push(todayEvent);
+                
         setEvents(events);
       })
       .catch(error => console.error(error))
