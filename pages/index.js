@@ -88,11 +88,16 @@ function DisplaySchedule() {
               // get the hours and minutes for the start and end times from the entry array
 
               // create the name string for the entry, which will have the times
+              const classStart = entry.startTime;
+              const classEnd = entry.endTime;
+              const startDate = new Date(classStart);
+              const endDate = new Date(classEnd);
+              
+              const startHours = startDate.getHours() > 12 ? startDate.getHours() - 12 : startDate.getHours();
+              const endHours = endDate.getHours() > 12 ? endDate.getHours() - 12 : endDate.getHours();
+              const buildClassName = `${entry.className} (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
 
-              // TODO: Add the hour and minutes for the start time of the event to the string below
-              const buildClassName = entry.className;
-
-              console.log(entry);
+              console.log("entry entry:", startDate.getHours());
 
               const currEvent = {
                 title: buildClassName,
