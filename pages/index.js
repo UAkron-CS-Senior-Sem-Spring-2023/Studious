@@ -34,7 +34,7 @@ function DisplaySchedule() {
     fetch(queryString)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        //console.log(data);
 
         const events = data.data.map(entry => {
           return {
@@ -85,25 +85,23 @@ function DisplaySchedule() {
             // for each of these, create the event for the class and push it to the schedule
             for (let x = 0; x < dates.length; x++) {
               const dateObject = dates.map(date => new Date(date));
+              const today = new Date();
               const currEvent = {
-                title: entry.className,
-                start: entry.startDate,
-                end: entry.endDate,
+                title: 'a test event',
+                start: today,
+                end: today,
                 backgroundColor: '#f0ad4e'
               }
+
+              console.log("new event: ", currEvent);
               
               events.push(currEvent);
             }
           }
           
           // push to the events array here
+          setEvents(events);
         }
-
-
-
-
-
-
 
         // const events = data.data.map(entry => {
         //   return {
