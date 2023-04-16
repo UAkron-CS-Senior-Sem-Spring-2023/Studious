@@ -224,9 +224,7 @@ export default function Home() {
                   type="text"
                   id="task_name"
                   name="task_name"
-                  placeholder="taskName"
-                  value={taskName}
-                  onChange={(event) => setTaskName(event.target.value)}
+                  placeholder="task_name"
                 />
               </FormControl>
 
@@ -239,8 +237,6 @@ export default function Home() {
                   id="task_description"
                   name="task_description"
                   placeholder="Task description"
-                  value={taskDescription}
-                  onChange={(event) => setTaskDescription(event.target.value)}
                 />
               </FormControl>
 
@@ -253,8 +249,6 @@ export default function Home() {
                     id="taskHours"
                     name="taskHours"
                     mr="2"
-                    value={taskHours}
-                    onChange={(event) => setTaskHours(event.target.value)}
                   >
                     {[...Array(13).keys()].map((hour) => (
                       <option key={hour} value={hour}>
@@ -266,8 +260,6 @@ export default function Home() {
                   <Select
                     id="taskFraction"
                     name="taskFraction"
-                    value={taskFraction}
-                    onChange={(event) => setTaskFraction(event.target.value)}
                   >
                     <option value="0">0</option>
                     <option value="0.25">25</option>
@@ -282,8 +274,6 @@ export default function Home() {
                 <Select
                   id="priority_level"
                   name="priority_level"
-                  value={priorityLevel}
-                  onChange={(event) => setPriorityLevel(event.target.value)}
                 >
                   <option value="High">High</option>
                   <option value="Medium">Medium</option>
@@ -296,8 +286,6 @@ export default function Home() {
                 <Select
                   id="color"
                   name="color"
-                  value={color}
-                  onChange={(event) => setColor(event.target.value)}
                 >
                   <option value="Red">Red</option>
                   <option value="Blue">Blue</option>
