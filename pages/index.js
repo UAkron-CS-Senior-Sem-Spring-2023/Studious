@@ -27,7 +27,43 @@ function DisplaySchedule() {
 
   const [events, setEvents] = useState([]);
 
+  // adding the tasks here
   useEffect(() => {
+    const email = localStorage.getItem("email");
+
+    fetch(`/api/tasks?email=${email}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const taskEvents = data.data.map((task) => ({
+          title: task.TaskName,
+          start: task.startDate,
+          end: task.endDate,
+          backgroundColor: "#f0ad4e",
+        }));
+
+        for (let i = 0; i < data.data.length; i++) {
+          //console.log(data.data);
+          const currEvent = {
+            title: data.data[i].TaskName,
+            start: data.data[i].startTime,
+            end: data.data[i].endTime,
+            backgroundColor: '#f0ad4e'
+          }
+          events.push(currEvent);
+        }
+
+        //console.log(events);
+
+        console.log(events);
+        
+        const updatedEvents = [...events, ...taskEvents];
+
+        setEvents(updatedEvents);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  /*useEffect(() => {
     let email = localStorage.getItem("email");
     const queryString = `/api/classes?email=${email}`;
 
@@ -35,7 +71,6 @@ function DisplaySchedule() {
       .then(response => response.json())
       .then(data => {
         //console.log(data);
-
         const events = data.data.map(entry => {
           return {
             title: entry.className,
@@ -44,6 +79,7 @@ function DisplaySchedule() {
             backgroundColor: '#f0ad4e'
           };
         });
+
 
         for (let i = 0; i < data.data.length; i++) {
           
@@ -92,12 +128,12 @@ function DisplaySchedule() {
               const classEnd = entry.endTime;
               const startDate = new Date(classStart);
               const endDate = new Date(classEnd);
-              
+
               const startHours = startDate.getHours() > 12 ? startDate.getHours() - 12 : startDate.getHours();
               const endHours = endDate.getHours() > 12 ? endDate.getHours() - 12 : endDate.getHours();
               const buildClassName = `${entry.className} (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
 
-              console.log("entry entry:", startDate.getHours());
+              //console.log("entry entry:", startDate.getHours());
 
               const currEvent = {
                 title: buildClassName,
@@ -106,18 +142,18 @@ function DisplaySchedule() {
                 backgroundColor: '#f0ad4e'
               }
 
-              console.log("new event: ", currEvent);
+              //console.log("new event: ", currEvent);
               
               events.push(currEvent);
             }
           }
-          
-          // push to the events array here
-          setEvents(events);
         }
+        
+        // load the task items into the calendar
+        setEvents(events);       
       })
       .catch(error => console.error(error))
-  }, []);
+    }, []);*/
 
   return (
     <div>
