@@ -56,22 +56,24 @@ const addTask = async (event) => {
   const end_timeVal = event.target.end_time.value;
   const currDate = new Date();
 
+  
+  alert(start_timeVal);
   // build the JSON for the initial task creation request
   const data = {
     TaskName: taskName,
     taskDescription: taskDescription,
-    taskPriority: priorityLevel,
+    taskPriority: 2,
     userEmail: userEmail,
-    startTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${start_timeVal}:00`),
-    endTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${end_timeVal}:00`),
+    startTime: "2023-04-15T09:00:00.000+00:00",
+    endTime: "2023-04-15T09:00:00.000+00:00",
     color: color,
     timeEstimate: taskTime,
   };
 
-  console.log("HERE IS THE DATA OBJECT", data);
-
+  
   const JSONdata = JSON.stringify(data);
   const endpoint = "/api/tasks";
+  console.log("HERE IS THE DATA OBJECT", JSONdata);
 
   const options = {
     method: "POST",
@@ -83,6 +85,7 @@ const addTask = async (event) => {
 
   const response = await fetch(endpoint, options);
   const result = await response.json();
+  console.log("result of the addTask API call ", result);
 };
 
 function ProfileTab() {
