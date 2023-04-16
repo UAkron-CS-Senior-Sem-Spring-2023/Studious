@@ -62,10 +62,10 @@ const addTask = async (event) => {
   const data = {
     TaskName: taskName,
     taskDescription: taskDescription,
-    taskPriority: 2,
+    taskPriority: priorityLevel,
     userEmail: userEmail,
-    startTime: "2023-04-15T09:00:00.000+00:00",
-    endTime: "2023-04-15T09:00:00.000+00:00",
+    startTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${start_timeVal}:00`),
+    endTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${end_timeVal}:00`),
     color: color,
     timeEstimate: taskTime,
   };
@@ -291,9 +291,9 @@ export default function Home() {
                   id="priority_level"
                   name="priority_level"
                 >
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Low">Low</option>
+                  <option value="1">High</option>
+                  <option value="2">Medium</option>
+                  <option value="3">Low</option>
                 </Select>
               </FormControl>
 
