@@ -52,10 +52,8 @@ function DisplaySchedule() {
           events.push(currEvent);
         }
 
-        //console.log(events);
-
-        console.log(events);
         
+        console.log(events);
         const updatedEvents = [...events, ...taskEvents];
 
         setEvents(updatedEvents);
@@ -142,7 +140,7 @@ function DisplaySchedule() {
                 backgroundColor: '#f0ad4e'
               }
 
-              //console.log("new event: ", currEvent);
+              console.log("new event: ", currEvent);
               
               setEvents(prevEvents => [...prevEvents, currEvent])
             }
@@ -150,7 +148,7 @@ function DisplaySchedule() {
         }
         
         // load the task items into the calendar
-        setEvents(events);       
+        //setEvents(events);       
       })
       .catch(error => console.error(error))
     }, []);

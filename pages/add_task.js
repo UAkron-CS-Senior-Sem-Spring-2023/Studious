@@ -54,10 +54,10 @@ const addTask = async (event) => {
   const color = event.target.color.value;
   const start_timeVal = event.target.start_time.value;
   const end_timeVal = event.target.end_time.value;
-  const currDate = new Date();
+  const currDate = new Date(event.target.task_date.value);
 
-  
-  alert(start_timeVal);
+  alert(currDate);
+
   // build the JSON for the initial task creation request
   const data = {
     TaskName: taskName,
@@ -73,7 +73,7 @@ const addTask = async (event) => {
   
   const JSONdata = JSON.stringify(data);
   const endpoint = "/api/tasks";
-  console.log("HERE IS THE DATA OBJECT", JSONdata);
+  console.log("Date object: ", JSONdata);
 
   const options = {
     method: "POST",
@@ -275,14 +275,19 @@ export default function Home() {
                 </Box>
               </FormControl>
 
+              <FormControl id="task_date" mt="4">
+                <FormLabel>Task Date</FormLabel>
+                <Input type="Date" />
+              </FormControl>
+
               <FormControl id="start_time" mt="4">
                 <FormLabel>Start Time</FormLabel>
-                <Input type="time" />
+                <Input type="Time" />
               </FormControl>
 
               <FormControl id="end_time" mt="4">
                 <FormLabel>End Time</FormLabel>
-                <Input type="time" />
+                <Input type="Time" />
               </FormControl>
 
               <FormControl mt="4" isRequired>
