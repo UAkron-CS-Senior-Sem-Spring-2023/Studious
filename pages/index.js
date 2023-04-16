@@ -63,7 +63,7 @@ function DisplaySchedule() {
       .catch((error) => console.error(error));
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     let email = localStorage.getItem("email");
     const queryString = `/api/classes?email=${email}`;
 
@@ -144,7 +144,7 @@ function DisplaySchedule() {
 
               //console.log("new event: ", currEvent);
               
-              events.push(currEvent);
+              setEvents(prevEvents => [...prevEvents, currEvent])
             }
           }
         }
@@ -153,7 +153,7 @@ function DisplaySchedule() {
         setEvents(events);       
       })
       .catch(error => console.error(error))
-    }, []);*/
+    }, []);
 
   return (
     <div>
