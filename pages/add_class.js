@@ -238,6 +238,10 @@ export default function Home() {
           <Box p={4} w="82%" mt={8}>
             <ProfileTab />
 
+            <Heading as="h1" size="2xl" mb="4">
+              Add Class
+            </Heading>
+
             <form onSubmit={addClass}>
               <FormControl id="class_name" isRequired>
                 <FormLabel>Class Name</FormLabel>

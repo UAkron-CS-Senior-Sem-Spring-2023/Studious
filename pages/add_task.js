@@ -48,12 +48,13 @@ const addTask = async (event) => {
   
   const taskName = event.target.task_name.value;
   const taskDescription = event.target.task_description.value;
-  const taskTime =
-    parseInt(event.target.taskHours.value) +
-    parseFloat(event.target.taskFraction.value);
+  const taskTime = parseFloat(event.target.taskHours.value);
   const userEmail = localStorage.getItem("email");
   const priorityLevel = event.target.priority_level.value;
   const color = event.target.color.value;
+  const start_timeVal = event.target.start_time.value;
+  const end_timeVal = event.target.end_time.value;
+  const currDate = new Date();
 
   // build the JSON for the initial task creation request
   const data = {
@@ -61,11 +62,13 @@ const addTask = async (event) => {
     taskDescription: taskDescription,
     taskPriority: priorityLevel,
     userEmail: userEmail,
-    startTime: new Date(0),
-    endTime: new Date(0),
+    startTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${start_timeVal}:00`),
+    endTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${end_timeVal}:00`),
     color: color,
     timeEstimate: taskTime,
   };
+
+  console.log("HERE IS THE DATA OBJECT", data);
 
   const JSONdata = JSON.stringify(data);
   const endpoint = "/api/tasks";
@@ -214,7 +217,7 @@ export default function Home() {
             <ProfileTab />
 
             <Heading as="h1" size="2xl" mb="4">
-              My Schedule
+              Add Task
             </Heading>
 
             <form onSubmit={addTask}>
@@ -224,7 +227,6 @@ export default function Home() {
                   type="text"
                   id="task_name"
                   name="task_name"
-                  placeholder="task_name"
                 />
               </FormControl>
 
@@ -236,7 +238,6 @@ export default function Home() {
                   type="text"
                   id="task_description"
                   name="task_description"
-                  placeholder="Task description"
                 />
               </FormControl>
 
@@ -245,28 +246,40 @@ export default function Home() {
                   Estimated time (hours):
                 </FormLabel>
                 <Box display="flex">
-                  <Select
-                    id="taskHours"
-                    name="taskHours"
-                    mr="2"
-                  >
-                    {[...Array(13).keys()].map((hour) => (
-                      <option key={hour} value={hour}>
-                        {hour}
-                      </option>
-                    ))}
-                  </Select>
-
-                  <Select
-                    id="taskFraction"
-                    name="taskFraction"
-                  >
-                    <option value="0">0</option>
-                    <option value="0.25">25</option>
-                    <option value="0.5">5</option>
-                    <option value="0.75">75</option>
-                  </Select>
+                <Select id="taskHours" name="taskHours" defaultValue={0}>
+                  <option value={0}>0 hours</option>
+                  <option value={0.5}>0.5 hours</option>
+                  <option value={1}>1 hour</option>
+                  <option value={1.5}>1.5 hours</option>
+                  <option value={2}>2 hours</option>
+                  <option value={2.5}>2.5 hours</option>
+                  <option value={3}>3 hours</option>
+                  <option value={3.5}>3.5 hours</option>
+                  <option value={4}>4 hours</option>
+                  <option value={4.5}>4.5 hours</option>
+                  <option value={5}>5 hours</option>
+                  <option value={5.5}>5.5 hours</option>
+                  <option value={6}>6 hours</option>
+                  <option value={6.5}>6.5 hours</option>
+                  <option value={7}>7 hours</option>
+                  <option value={7.5}>7.5 hours</option>
+                  <option value={8}>8 hours</option>
+                  <option value={8.5}>8.5 hours</option>
+                  <option value={9}>9 hours</option>
+                  <option value={9.5}>9.5 hours</option>
+                  <option value={10}>10 hours</option>
+              </Select>
                 </Box>
+              </FormControl>
+
+              <FormControl id="start_time" mt="4">
+                <FormLabel>Start Time</FormLabel>
+                <Input type="time" />
+              </FormControl>
+
+              <FormControl id="end_time" mt="4">
+                <FormLabel>End Time</FormLabel>
+                <Input type="time" />
               </FormControl>
 
               <FormControl mt="4" isRequired>
