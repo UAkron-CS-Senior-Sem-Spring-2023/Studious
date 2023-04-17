@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import LoginSignupForm from "./login";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
-import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar } from "@chakra-ui/react";
+import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar, Center } from "@chakra-ui/react";
 // import { useEffect, useState } from "react";
 
 // check if the user is logged in- if not redirect them to the login page
@@ -56,6 +56,11 @@ function DailyQuote() {
 }
 
 */
+
+function ouputQuote(color, text)
+{
+  return '<span style="color:'+color+'">'+text+'</span>';
+}
 
 function DisplaySchedule() {
 
@@ -334,6 +339,9 @@ export default function Home() {
           </Box>
         </Flex>
         <Box p={4}>
+          <Center bg='#718096' h='50px' color='white'>
+            "Happiness is not something ready made. It comes from your own actions.” ―Dalai Lama XIV
+          </Center>
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>
       </Flex>

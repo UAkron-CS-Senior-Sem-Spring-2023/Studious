@@ -22,6 +22,7 @@ import {
   Checkbox,
   Select,
   Button,
+  Center,
 } from "@chakra-ui/react";
 
 // check if the user is logged in- if not redirect them to the login page
@@ -307,6 +308,9 @@ export default function Home() {
           </Box>
         </Flex>
         <Box p={4}>
+          <Center bg='#718096' h='50px' color='white'>
+            "Happiness is not something ready made. It comes from your own actions.” ―Dalai Lama XIV
+          </Center>
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>
       </Flex>
