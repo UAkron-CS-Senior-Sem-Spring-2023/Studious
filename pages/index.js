@@ -23,6 +23,40 @@ function CheckForLogin() {
   }, []);
 }
 
+/*
+
+function DailyQuote() {
+  const [quote, setQuote] = useState("");
+
+  useEffect(() => {
+
+    // function to fetch a quote from an API or list of quotes
+    async function fetchQuote() {
+      const response = await fetch("https://...");
+      const data = await response.json();
+      setQuote(data.content);
+    }
+
+    // fetch a new quote every day at midnight
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const timeUntilMidnight = midnight.getTime() - new Date().getTime();
+    const timer = setTimeout(() => {
+      fetchQuote();
+    }, timeUntilMidnight);
+
+    // fetch a quote immediately before going out of scope
+    fetchQuote();
+
+    // clear the timer when out of scope
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <p>{quote}</p>;
+}
+
+*/
+
 function DisplaySchedule() {
 
   const [events, setEvents] = useState([]);
