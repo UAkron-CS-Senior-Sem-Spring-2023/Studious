@@ -22,7 +22,6 @@ function CheckForLogin() {
   }, []);
 }
 
-
 function DisplaySchedule() {
 
   const [events, setEvents] = useState([]);
@@ -47,7 +46,7 @@ function DisplaySchedule() {
             title: data.data[i].TaskName,
             start: data.data[i].startTime,
             end: data.data[i].endTime,
-            backgroundColor: '#f0ad4e'
+            backgroundColor: "#f0ad4e",
           }
           events.push(currEvent);
         }
@@ -215,6 +214,10 @@ export default function Home() {
       window.location.href = 'add_task';
     }
 
+    function redirectProgressTracking() {
+      window.locaiton.href = 'progresstracking';
+    }
+
   return (
     <>
       <Head>
@@ -248,7 +251,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "gray",
                 cursor: "pointer",
               }}
               onClick={ redirectAddClass }
@@ -264,7 +267,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "gray",
                 cursor: "pointer",
               }}
               onClick={ redirectAddTask }
@@ -280,7 +283,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "gray",
                 cursor: "pointer",
               }}
             >

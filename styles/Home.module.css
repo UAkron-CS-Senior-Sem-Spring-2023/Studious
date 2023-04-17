@@ -8,6 +8,7 @@
   min-height: 100vh;
 }
 
+
 .logoContainer {
   position: absolute;
   top: 0;
@@ -16,7 +17,7 @@
 }
 
 .Sidebar {
-  background-color:RGBA(0, 0, 0, 0.16); 
+  background-color:RGBA(0, 0, 0, 0.64) !important; 
   padding: 4; 
   width:"10%"
 }
