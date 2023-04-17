@@ -214,10 +214,6 @@ export default function Home() {
       window.location.href = 'add_task';
     }
 
-    function redirectProgressTracking() {
-      window.locaiton.href = 'progresstracking';
-    }
-
   return (
     <>
       <Head>
