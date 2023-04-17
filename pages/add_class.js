@@ -194,7 +194,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
               onClick={sendHome}
@@ -210,7 +210,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
               onClick={redirectAddTask}
@@ -226,7 +226,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
             >

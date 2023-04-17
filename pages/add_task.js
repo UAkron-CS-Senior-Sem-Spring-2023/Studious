@@ -175,12 +175,12 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
               onClick={sendHome}
             >
-              Add Class
+              Home
             </Box>
 
             <Box
@@ -191,7 +191,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
               onClick={redirectAddClass}
@@ -207,7 +207,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
             >
