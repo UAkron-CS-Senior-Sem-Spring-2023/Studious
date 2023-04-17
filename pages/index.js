@@ -6,6 +6,7 @@ import LoginSignupForm from "./login";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
 import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar } from "@chakra-ui/react";
+// import { useEffect, useState } from "react";
 
 // check if the user is logged in- if not redirect them to the login page
 function CheckForLogin() {
@@ -212,6 +213,10 @@ export default function Home() {
 
     function redirectAddTask() {
       window.location.href = 'add_task';
+    }
+
+    function redirectProgressTracking() {
+      window.location.href = '/progresstracking';
     }
 
   return (
