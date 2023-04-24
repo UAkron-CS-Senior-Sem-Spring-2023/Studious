@@ -1,9 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
+import FullCalendar from '@fullcalendar/react' // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import LoginSignupForm from "./login";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
-import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar } from "@chakra-ui/react";
+import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar, Center } from "@chakra-ui/react";
+// import { useEffect, useState } from "react";
 
 // check if the user is logged in- if not redirect them to the login page
 function CheckForLogin() {
@@ -20,54 +23,183 @@ function CheckForLogin() {
   }, []);
 }
 
-// displays the schedule
-function DisplaySchedule() {
-  const [classEntries, setClassEntries] = useState([]);
+/*
 
-  // get the email address of the user
+function DailyQuote() {
+  const [quote, setQuote] = useState("");
+
+  useEffect(() => {
+
+    // function to fetch a quote from an API or list of quotes
+    async function fetchQuote() {
+      const response = await fetch("https://...");
+      const data = await response.json();
+      setQuote(data.content);
+    }
+
+    // fetch a new quote every day at midnight
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const timeUntilMidnight = midnight.getTime() - new Date().getTime();
+    const timer = setTimeout(() => {
+      fetchQuote();
+    }, timeUntilMidnight);
+
+    // fetch a quote immediately before going out of scope
+    fetchQuote();
+
+    // clear the timer when out of scope
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <p>{quote}</p>;
+}
+
+*/
+
+function ouputQuote(color, text)
+{
+  return '<span style="color:'+color+'">'+text+'</span>';
+}
+
+function DisplaySchedule() {
+
+  const [events, setEvents] = useState([]);
+
+  // adding the tasks here
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+
+    fetch(`/api/tasks?email=${email}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const taskEvents = data.data.map((task) => ({
+          title: task.TaskName,
+          start: task.startDate,
+          end: task.endDate,
+          backgroundColor: "#f0ad4e",
+        }));
+
+        for (let i = 0; i < data.data.length; i++) {
+          //console.log(data.data);
+          const currEvent = {
+            title: data.data[i].TaskName,
+            start: data.data[i].startTime,
+            end: data.data[i].endTime,
+            backgroundColor: "#f0ad4e",
+          }
+          events.push(currEvent);
+        }
+
+        
+        console.log(events);
+        const updatedEvents = [...events, ...taskEvents];
+
+        setEvents(updatedEvents);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   useEffect(() => {
     let email = localStorage.getItem("email");
-    
-    // build the query for the API
     const queryString = `/api/classes?email=${email}`;
 
     fetch(queryString)
       .then(response => response.json())
-      .then(data => setClassEntries(data.data))
+      .then(data => {
+        //console.log(data);
+        const events = data.data.map(entry => {
+          return {
+            title: entry.className,
+            start: entry.startDate,
+            end: entry.endDate,
+            backgroundColor: '#f0ad4e'
+          };
+        });
+
+
+        for (let i = 0; i < data.data.length; i++) {
+          
+          // getting the class
+          const entry = data.data[i];
+
+          // for all days that this current entry occurs
+          for (let j = 0; j < entry.days.length; j++) {
+            // TODO: create events for all days this month
+            const year = 2023;
+            const month = 3; // JavaScript months are zero-indexed, so April is month 3
+            const dayOfWeekString = entry.days[j];
+
+            // associative array for the days of the week
+            const dayChart = {
+              'Sunday': 0,
+              'Monday': 1, 
+              'Tuesday': 2,
+              'Wednesday': 3,
+              'Thursday': 4,
+              'Friday': 5,
+              'Saturday': 6,
+            };
+
+            const dayOfWeek = dayChart[dayOfWeekString]; // Monday is day 1 of the week (Sunday is 0): will need to convert the days array to this value
+
+            const dates = [];
+
+            const date = new Date(year, month, 1);
+            while (date.getMonth() === month) {
+              if (date.getDay() === dayOfWeek) {
+                dates.push(new Date(date));
+              }
+              date.setDate(date.getDate() + 1);
+            }
+
+            // for each of these, create the event for the class and push it to the schedule
+            for (let x = 0; x < dates.length; x++) {
+              const dateObject = new Date(dates[x]);
+              const today = new Date();
+
+              // get the hours and minutes for the start and end times from the entry array
+
+              // create the name string for the entry, which will have the times
+              const classStart = entry.startTime;
+              const classEnd = entry.endTime;
+              const startDate = new Date(classStart);
+              const endDate = new Date(classEnd);
+
+              const startHours = startDate.getHours() > 12 ? startDate.getHours() - 12 : startDate.getHours();
+              const endHours = endDate.getHours() > 12 ? endDate.getHours() - 12 : endDate.getHours();
+              const buildClassName = `${entry.className} (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
+
+              //console.log("entry entry:", startDate.getHours());
+
+              const currEvent = {
+                title: buildClassName,
+                start: dateObject,
+                end: dateObject,
+                backgroundColor: '#f0ad4e'
+              }
+
+              console.log("new event: ", currEvent);
+              
+              setEvents(prevEvents => [...prevEvents, currEvent])
+            }
+          }
+        }
+        
+        // load the task items into the calendar
+        //setEvents(events);       
+      })
       .catch(error => console.error(error))
-  }, []);
+    }, []);
 
-  function formatTime(timeString) {
-    const dateObj = new Date(timeString);
-    let hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
-    let timeOfDay = "";
-
-    if (hours > 12) {
-      hours-=12;
-      timeOfDay = "PM";
-    } else {
-      timeOfDay = "AM";
-    }
-
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
-
-    return `${hours}:${formattedMinutes} ${timeOfDay}`
-  }
-
-  // display the results
   return (
     <div>
-      {classEntries.map(entry => (
-        <div key={entry._id}>
-          <h2><b>{entry.className}</b></h2>
-          <p>{entry.classLocation}</p>
-          <p>Start time: {formatTime(entry.startTime)} </p>
-          <p>End time: {formatTime(entry.endTime)}</p>
-          <p>{entry.days.join(", ")}</p>
-          <br />
-        </div>
-      ))}
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        events={events}
+        timeFormat=""
+      />
     </div>
   );
 }
@@ -122,6 +254,10 @@ export default function Home() {
       window.location.href = 'add_task';
     }
 
+    function redirectProgressTracking() {
+      window.location.href = '/progresstracking';
+    }
+
   return (
     <>
       <Head>
@@ -133,7 +269,7 @@ export default function Home() {
       {/* On load, check if the user is logged in. If they are not, redirect them to the login page, which will redirect them back here after they login */}
       <CheckForLogin />
 
-      <Flex minH="100vh" flexDirection="column" bgGradient='linear(to-r, gray.200 25%, blue.400 75%)'>
+      <Flex minH="100vh" flexDirection="column" bgGradient='linear(blue.100 0%, blue.50 25%, white.100 50%)'>
         <Flex flex={1}>
           {/* Sidebar */}
           <Box p={4}  h="100vh" rounded="xl" >
@@ -155,7 +291,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
               onClick={ redirectAddClass }
@@ -171,7 +307,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
               onClick={ redirectAddTask }
@@ -187,7 +323,7 @@ export default function Home() {
               textAlign="center"
               transition="background-color 0.5s ease"
               _hover={{
-                bg: "white",
+                bg: "#718096",
                 cursor: "pointer",
               }}
             >
@@ -203,6 +339,9 @@ export default function Home() {
           </Box>
         </Flex>
         <Box p={4}>
+          <Center bg='#718096' h='50px' color='white'>
+            "Happiness is not something ready made. It comes from your own actions.” ―Dalai Lama XIV
+          </Center>
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>
       </Flex>

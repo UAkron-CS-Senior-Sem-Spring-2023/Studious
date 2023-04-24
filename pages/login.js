@@ -1,10 +1,15 @@
-import cx from 'classnames'
-import Link from 'next/link'
-import styles from '../styles/Login.module.css'
-import Image from 'next/image'
-import { setToken, getSession } from 'next-auth/react';
-// import jwt from 'jsonwebtoken'
-import cookie from 'js-cookie'
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+  Flex,
+} from "@chakra-ui/react";
+import Link from "next/link";
+import Image from "next/image";
 
 // login form
 const LoginSignupForm = () => {
@@ -12,20 +17,20 @@ const LoginSignupForm = () => {
     event.preventDefault();
 
     const data = {
-        email: event.target.email.value,
-        password: event.target.password.value
+      email: event.target.email.value,
+      password: event.target.password.value,
     };
-    
+
     const JSONdata = JSON.stringify(data);
-    const endpoint = '/api/login';
+    const endpoint = "/api/login";
 
     const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/JSON',
-        },
-        body: JSONdata,
-    }
+      method: "POST",
+      headers: {
+        "Content-Type": "application/JSON",
+      },
+      body: JSONdata,
+    };
 
     const response = await fetch(endpoint, options);
     const result = await response.json();
@@ -33,50 +38,69 @@ const LoginSignupForm = () => {
     // check if the result from the API is valid
     if (result.exists) {
       // login is valid, set the localStorage field for email and first name
-      localStorage.setItem('email', event.target.email.value);
-      localStorage.setItem('first_name', result.first_name)
+      localStorage.setItem("email", event.target.email.value);
+      localStorage.setItem("first_name", result.first_name);
 
       // redirect the user back to the home page
-      window.location.href = '/';
-      
+      window.location.href = "/";
     } else {
       alert("Invalid username and password");
     }
-  }
+  };
 
   return (
     <>
-    <main className={cx(styles["form-signin"],"text-center","mt-5")}>
-    <Image
-          src="/studioustransparent.png"
-          width={300}
-          height={150}
-        />
-        <br />
-        <br />
-        <br />
-      <form onSubmit={verifyUser}>
-        <div className="form-floating">
-          <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com" />
-          <label htmlFor="floatingInput">Email address</label>
-        </div>
-        <div className="form-floating">
-          <input type="password" className="form-control" id="password" name="password" placeholder="Password" />
-          <label htmlFor="floatingPassword">Password</label>
-        </div>
+      <Flex h="100vh" alignItems="center" justifyContent="center">
+        <Box
+          w="sm"
+          p={8}
+          borderWidth={1}
+          borderRadius={8}
+          boxShadow="lg" // add gray shadow here
+          bg="white"
+        >
+          <Image src="/studioustransparent.png" width={300} height={150} />
+          <form onSubmit={verifyUser}>
+            <FormControl mt={4}>
+              <FormLabel htmlFor="email">Email address</FormLabel>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+              />
+            </FormControl>
+            <Checkbox mt={4}>
+              Remember me
+            </Checkbox>
+            <Button
+              bg="black" // add black background here
+              color="white" // keep white text color here
+              size="lg"
+              mt={4}
+              width="100%"
+              type="submit"
+            >
+              Sign in
+            </Button>
+          </form>
+          <Text mt={4}>
+            New User? <Link href="/signup">Create Here</Link>
+          </Text>
+        </Box>
+      </Flex>
+    </>
+  );
+};
 
-        <div className={cx(styles.checkbox,"mb-3")}>
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
-        </div>
-        <button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-      </form>
-      <p>New User? <Link href="/signup"> Create Here</Link></p>
-    </main>
 
-  </>
-  )
-}
-
-export default LoginSignupForm
+export default LoginSignupForm;
