@@ -120,7 +120,7 @@ function DisplaySchedule() {
     fetch(queryString)
       .then((response) => response.json())
       .then((data) => {
-        //console.log(data);
+        console.log(data);
         const events = data.data.map((entry) => {
           return {
             title: entry.className,
@@ -166,6 +166,7 @@ function DisplaySchedule() {
 
             // for each of these, create the event for the class and push it to the schedule
             for (let x = 0; x < dates.length; x++) {
+              console.log("this is dates[x]", dates[x])
               const dateObject = new Date(dates[x]);
               const today = new Date();
 
@@ -185,20 +186,32 @@ function DisplaySchedule() {
                 endDate.getHours() > 12
                   ? endDate.getHours() - 12
                   : endDate.getHours();
-              const buildClassName = `${
-                entry.className
-              } (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
+              // const buildClassName = `${
+              //   entry.className
+              // } (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
+              const buildClassName = `${entry.className}`
 
               //console.log("entry entry:", startDate.getHours());
 
+              console.log("this is date object", dateObject);
+
+              // creating a final start and end date for 
+              const classStartDate = dateObject;
+              const classEndDate = dateObject;
+
+              classStartDate.setHours(startDate.getHours());
+              classStartDate.setMinutes(startDate.getMinutes());
+              classEndDate.setHours(endDate.getHours());
+              classEndDate.setMinutes(endDate.getMinutes());
+
               const currEvent = {
                 title: buildClassName,
-                start: dateObject,
-                end: dateObject,
+                start: classStartDate,
+                end: classEndDate,
                 backgroundColor: "#f0ad4e",
               };
 
-              console.log("new event: ", currEvent);
+              console.log("write this to calendar: ", currEvent);
 
               setEvents((prevEvents) => [...prevEvents, currEvent]);
             }
