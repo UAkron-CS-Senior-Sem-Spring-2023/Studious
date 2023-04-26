@@ -100,7 +100,7 @@ function DisplaySchedule() {
             title: data.data[i].TaskName,
             start: data.data[i].startTime,
             end: data.data[i].endTime,
-            backgroundColor: "#f0ad4e",
+            backgroundColor: taskColor,
           };
           events.push(currEvent);
         }
@@ -131,6 +131,7 @@ function DisplaySchedule() {
         for (let i = 0; i < data.data.length; i++) {
           // getting the class
           const entry = data.data[i];
+          let classColor = data.data[i].color;
 
           // for all days that this current entry occurs
           for (let j = 0; j < entry.days.length; j++) {
@@ -202,11 +203,13 @@ function DisplaySchedule() {
               classEndDate.setHours(endDate.getHours());
               classEndDate.setMinutes(endDate.getMinutes());
 
+              // get the color of the class
+
               const currEvent = {
                 title: buildClassName,
                 start: classStartDate,
                 end: classEndDate,
-                backgroundColor: "#f0ad4e",
+                backgroundColor: classColor,
               };
 
               console.log("write this to calendar: ", currEvent);
