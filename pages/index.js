@@ -100,7 +100,7 @@ function DisplaySchedule() {
             title: data.data[i].TaskName,
             start: data.data[i].startTime,
             end: data.data[i].endTime,
-            backgroundColor: taskColor,
+            backgroundColor: data.data[i].color,
           };
           events.push(currEvent);
         }
