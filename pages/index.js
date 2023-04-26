@@ -1,11 +1,26 @@
 import Head from "next/head";
 import Link from "next/link";
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import FullCalendar from "@fullcalendar/react"; // must go before plugins
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
 import LoginSignupForm from "./login";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
-import { Box, Heading, Text, Image, Flex, Menu, MenuButton, MenuList, MenuItem, Avatar, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  Image,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
+  Center,
+  Button,
+} from "@chakra-ui/react";
 // import { useEffect, useState } from "react";
 
 // check if the user is logged in- if not redirect them to the login page
@@ -57,14 +72,13 @@ function DailyQuote() {
 
 */
 
-function ouputQuote(color, text)
-{
-  return '<span style="color:'+color+'">'+text+'</span>';
+function ouputQuote(color, text) {
+  return '<span style="color:' + color + '">' + text + "</span>";
 }
 
 function DisplaySchedule() {
-
   const [events, setEvents] = useState([]);
+
 
   // adding the tasks here
   useEffect(() => {
@@ -87,11 +101,10 @@ function DisplaySchedule() {
             start: data.data[i].startTime,
             end: data.data[i].endTime,
             backgroundColor: "#f0ad4e",
-          }
+          };
           events.push(currEvent);
         }
 
-        
         console.log(events);
         const updatedEvents = [...events, ...taskEvents];
 
@@ -105,21 +118,19 @@ function DisplaySchedule() {
     const queryString = `/api/classes?email=${email}`;
 
     fetch(queryString)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         //console.log(data);
-        const events = data.data.map(entry => {
+        const events = data.data.map((entry) => {
           return {
             title: entry.className,
             start: entry.startDate,
             end: entry.endDate,
-            backgroundColor: '#f0ad4e'
+            backgroundColor: "#f0ad4e",
           };
         });
 
-
         for (let i = 0; i < data.data.length; i++) {
-          
           // getting the class
           const entry = data.data[i];
 
@@ -132,13 +143,13 @@ function DisplaySchedule() {
 
             // associative array for the days of the week
             const dayChart = {
-              'Sunday': 0,
-              'Monday': 1, 
-              'Tuesday': 2,
-              'Wednesday': 3,
-              'Thursday': 4,
-              'Friday': 5,
-              'Saturday': 6,
+              Sunday: 0,
+              Monday: 1,
+              Tuesday: 2,
+              Wednesday: 3,
+              Thursday: 4,
+              Friday: 5,
+              Saturday: 6,
             };
 
             const dayOfWeek = dayChart[dayOfWeekString]; // Monday is day 1 of the week (Sunday is 0): will need to convert the days array to this value
@@ -166,9 +177,17 @@ function DisplaySchedule() {
               const startDate = new Date(classStart);
               const endDate = new Date(classEnd);
 
-              const startHours = startDate.getHours() > 12 ? startDate.getHours() - 12 : startDate.getHours();
-              const endHours = endDate.getHours() > 12 ? endDate.getHours() - 12 : endDate.getHours();
-              const buildClassName = `${entry.className} (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
+              const startHours =
+                startDate.getHours() > 12
+                  ? startDate.getHours() - 12
+                  : startDate.getHours();
+              const endHours =
+                endDate.getHours() > 12
+                  ? endDate.getHours() - 12
+                  : endDate.getHours();
+              const buildClassName = `${
+                entry.className
+              } (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
 
               //console.log("entry entry:", startDate.getHours());
 
@@ -176,42 +195,46 @@ function DisplaySchedule() {
                 title: buildClassName,
                 start: dateObject,
                 end: dateObject,
-                backgroundColor: '#f0ad4e'
-              }
+                backgroundColor: "#f0ad4e",
+              };
 
               console.log("new event: ", currEvent);
-              
-              setEvents(prevEvents => [...prevEvents, currEvent])
+
+              setEvents((prevEvents) => [...prevEvents, currEvent]);
             }
           }
         }
-        
+
         // load the task items into the calendar
-        //setEvents(events);       
+        //setEvents(events);
       })
-      .catch(error => console.error(error))
-    }, []);
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
     <div>
       <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
+        plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+        headerToolbar={{
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+        }}
+        initialView="timeGridWeek"
+        defaultView="timeGridWeek"
         events={events}
-        timeFormat=""
       />
     </div>
   );
 }
 
 function ProfileTab() {
-
   // logout function
   const logoutFunc = () => {
     if (typeof window !== "undefined") {
       // remove the 'email' and 'first_name' fields from local storage
-      localStorage.removeItem('email');
-      localStorage.removeItem('first_name');
+      localStorage.removeItem("email");
+      localStorage.removeItem("first_name");
 
       // reload the page- this will take the user to the home page
       window.location.reload();
@@ -220,43 +243,39 @@ function ProfileTab() {
 
   return (
     <Box position="absolute" top="4" right="4">
-    <Menu>
-      <MenuButton
-        as={Avatar}
-        size="md"
-        p="4"
-        name="John doe" /*Display their First Name from database*/
-        src=""
-        bg="gray.200"
-        transition="border 0.5s ease"
-        _hover={{
-          border: "1px solid black",
-          cursor: "pointer",
-        }}
-      />
-      <MenuList>
-        <MenuItem>My Profile</MenuItem> {/*Link to account home*/}
-        <MenuItem>Settings</MenuItem> {/*Link to account settings*/}
-        <MenuItem onClick={logoutFunc}>Logout</MenuItem>
-      </MenuList>
-    </Menu>
+      <Menu>
+        <MenuButton
+          as={Avatar}
+          size="md"
+          p="4"
+          name="John doe" /*Display their First Name from database*/
+          src=""
+          bg="gray.200"
+          transition="border 0.5s ease"
+          _hover={{
+            border: "1px solid black",
+            cursor: "pointer",
+          }}
+        />
+        <MenuList>
+          <MenuItem>My Profile</MenuItem> {/*Link to account home*/}
+          <MenuItem>Settings</MenuItem> {/*Link to account settings*/}
+          <MenuItem onClick={logoutFunc}>Logout</MenuItem>
+        </MenuList>
+      </Menu>
     </Box>
-  )
+  );
 }
 
 export default function Home() {
-      // redirects to the home page
-    function redirectAddClass() {
-      window.location.href = '/add_class';
-    }
+  // redirects to the home page
+  function redirectAddClass() {
+    window.location.href = "/add_class";
+  }
 
-    function redirectAddTask() {
-      window.location.href = 'add_task';
-    }
-
-    function redirectProgressTracking() {
-      window.location.href = '/progresstracking';
-    }
+  function redirectAddTask() {
+    window.location.href = "add_task";
+  }
 
   return (
     <>
@@ -269,10 +288,14 @@ export default function Home() {
       {/* On load, check if the user is logged in. If they are not, redirect them to the login page, which will redirect them back here after they login */}
       <CheckForLogin />
 
-      <Flex minH="100vh" flexDirection="column" bgGradient='linear(blue.100 0%, blue.50 25%, white.100 50%)'>
+      <Flex
+        minH="100vh"
+        flexDirection="column"
+        bgGradient="linear(blue.100 0%, blue.50 25%, white.100 50%)"
+      >
         <Flex flex={1}>
           {/* Sidebar */}
-          <Box p={4}  h="100vh" rounded="xl" >
+          <Box p={4} h="100vh" rounded="xl">
             <Link href="/">
               <Image
                 alignContent="center"
@@ -294,7 +317,7 @@ export default function Home() {
                 bg: "#718096",
                 cursor: "pointer",
               }}
-              onClick={ redirectAddClass }
+              onClick={redirectAddClass}
             >
               Add Class
             </Box>
@@ -310,12 +333,12 @@ export default function Home() {
                 bg: "#718096",
                 cursor: "pointer",
               }}
-              onClick={ redirectAddTask }
+              onClick={redirectAddTask}
             >
               Add Task
             </Box>
 
-            <Box
+            {/* <Box
               border="1px solid black"
               rounded="md"
               p={4}
@@ -328,19 +351,20 @@ export default function Home() {
               }}
             >
               Progress Tracking
-            </Box>
+            </Box> */}
           </Box>
 
           {/* Main content goes here */}
 
-          <Box p={4} w='82%' >
-            <ProfileTab/>
+          <Box p={4} w="82%">
+            <ProfileTab />
             <DisplaySchedule />
           </Box>
         </Flex>
         <Box p={4}>
-          <Center bg='#718096' h='50px' color='white'>
-            "Happiness is not something ready made. It comes from your own actions.” ―Dalai Lama XIV
+          <Center bg="#718096" h="50px" color="white">
+            "Happiness is not something ready made. It comes from your own
+            actions.” ―Dalai Lama XIV
           </Center>
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>

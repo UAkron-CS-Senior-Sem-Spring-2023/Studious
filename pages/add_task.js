@@ -42,11 +42,10 @@ function CheckForLogin() {
 
 // add a task to the database
 const addTask = async (event) => {
-
   event.preventDefault();
 
   // get the data from the form
-  
+
   const taskName = event.target.task_name.value;
   const taskDescription = event.target.task_description.value;
   const taskTime = parseFloat(event.target.taskHours.value);
@@ -65,13 +64,20 @@ const addTask = async (event) => {
     taskDescription: taskDescription,
     taskPriority: priorityLevel,
     userEmail: userEmail,
-    startTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${start_timeVal}:00`),
-    endTime: new Date(`${currDate.getFullYear()}-${('0' + (currDate.getMonth()+1)).slice(-2)}-${('0' + currDate.getDate()).slice(-2)} ${end_timeVal}:00`),
+    startTime: new Date(
+      `${currDate.getFullYear()}-${("0" + (currDate.getMonth() + 1)).slice(
+        -2
+      )}-${("0" + currDate.getDate()).slice(-2)} ${start_timeVal}:00`
+    ),
+    endTime: new Date(
+      `${currDate.getFullYear()}-${("0" + (currDate.getMonth() + 1)).slice(
+        -2
+      )}-${("0" + currDate.getDate()).slice(-2)} ${end_timeVal}:00`
+    ),
     color: color,
     timeEstimate: taskTime,
   };
 
-  
   const JSONdata = JSON.stringify(data);
   const endpoint = "/api/tasks";
   console.log("Date object: ", JSONdata);
@@ -196,10 +202,10 @@ export default function Home() {
               }}
               onClick={redirectAddClass}
             >
-              Add Task
+              Add Class
             </Box>
 
-            <Box
+            {/* <Box
               border="1px solid black"
               rounded="md"
               p={4}
@@ -212,7 +218,7 @@ export default function Home() {
               }}
             >
               Progress Tracking
-            </Box>
+            </Box> */}
           </Box>
 
           {/* Main content goes here */}
@@ -227,11 +233,7 @@ export default function Home() {
             <form onSubmit={addTask}>
               <FormControl isRequired>
                 <FormLabel htmlFor="task_name">Task name</FormLabel>
-                <Input
-                  type="text"
-                  id="task_name"
-                  name="task_name"
-                />
+                <Input type="text" id="task_name" name="task_name" />
               </FormControl>
 
               <FormControl mt="4" isRequired>
@@ -250,29 +252,29 @@ export default function Home() {
                   Estimated time (hours):
                 </FormLabel>
                 <Box display="flex">
-                <Select id="taskHours" name="taskHours" defaultValue={0}>
-                  <option value={0}>0 hours</option>
-                  <option value={0.5}>0.5 hours</option>
-                  <option value={1}>1 hour</option>
-                  <option value={1.5}>1.5 hours</option>
-                  <option value={2}>2 hours</option>
-                  <option value={2.5}>2.5 hours</option>
-                  <option value={3}>3 hours</option>
-                  <option value={3.5}>3.5 hours</option>
-                  <option value={4}>4 hours</option>
-                  <option value={4.5}>4.5 hours</option>
-                  <option value={5}>5 hours</option>
-                  <option value={5.5}>5.5 hours</option>
-                  <option value={6}>6 hours</option>
-                  <option value={6.5}>6.5 hours</option>
-                  <option value={7}>7 hours</option>
-                  <option value={7.5}>7.5 hours</option>
-                  <option value={8}>8 hours</option>
-                  <option value={8.5}>8.5 hours</option>
-                  <option value={9}>9 hours</option>
-                  <option value={9.5}>9.5 hours</option>
-                  <option value={10}>10 hours</option>
-              </Select>
+                  <Select id="taskHours" name="taskHours" defaultValue={0}>
+                    <option value={0}>0 hours</option>
+                    <option value={0.5}>0.5 hours</option>
+                    <option value={1}>1 hour</option>
+                    <option value={1.5}>1.5 hours</option>
+                    <option value={2}>2 hours</option>
+                    <option value={2.5}>2.5 hours</option>
+                    <option value={3}>3 hours</option>
+                    <option value={3.5}>3.5 hours</option>
+                    <option value={4}>4 hours</option>
+                    <option value={4.5}>4.5 hours</option>
+                    <option value={5}>5 hours</option>
+                    <option value={5.5}>5.5 hours</option>
+                    <option value={6}>6 hours</option>
+                    <option value={6.5}>6.5 hours</option>
+                    <option value={7}>7 hours</option>
+                    <option value={7.5}>7.5 hours</option>
+                    <option value={8}>8 hours</option>
+                    <option value={8.5}>8.5 hours</option>
+                    <option value={9}>9 hours</option>
+                    <option value={9.5}>9.5 hours</option>
+                    <option value={10}>10 hours</option>
+                  </Select>
                 </Box>
               </FormControl>
 
@@ -293,10 +295,7 @@ export default function Home() {
 
               <FormControl mt="4" isRequired>
                 <FormLabel htmlFor="priority_level">Priority Level:</FormLabel>
-                <Select
-                  id="priority_level"
-                  name="priority_level"
-                >
+                <Select id="priority_level" name="priority_level">
                   <option value="1">High</option>
                   <option value="2">Medium</option>
                   <option value="3">Low</option>
@@ -305,10 +304,7 @@ export default function Home() {
 
               <FormControl mt="4" isRequired>
                 <FormLabel htmlFor="color">Color:</FormLabel>
-                <Select
-                  id="color"
-                  name="color"
-                >
+                <Select id="color" name="color">
                   <option value="Red">Red</option>
                   <option value="Blue">Blue</option>
                   <option value="Green">Green</option>
@@ -316,15 +312,21 @@ export default function Home() {
                 </Select>
               </FormControl>
 
-              <Button mt="4" colorScheme="blue" type="submit">
+              <Button
+                mt="4"
+                bg="black" // add black background here
+                color="white"
+                type="submit"
+              >
                 Create Task
               </Button>
             </form>
           </Box>
         </Flex>
         <Box p={4}>
-          <Center bg='#718096' h='50px' color='white'>
-            "Happiness is not something ready made. It comes from your own actions.” ―Dalai Lama XIV
+          <Center bg="#718096" h="50px" color="white">
+            "Happiness is not something ready made. It comes from your own
+            actions.” ―Dalai Lama XIV
           </Center>
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>

@@ -54,7 +54,7 @@ const addClass = async (event) => {
 
   // create an array of selected days
   let selectedDays = [];
-  let daysOfWeek = document.getElementsByName('days');
+  let daysOfWeek = document.getElementsByName("days");
 
   /*if (days) {
     // check that days is not null or undefined
@@ -72,7 +72,7 @@ const addClass = async (event) => {
     if (day.checked) {
       selectedDays.push(day.value);
     }
-  })
+  });
 
   const data = {
     className: className,
@@ -217,7 +217,7 @@ export default function Home() {
             >
               Add Task
             </Box>
-
+{/* 
             <Box
               border="1px solid black"
               rounded="md"
@@ -231,7 +231,7 @@ export default function Home() {
               }}
             >
               Progress Tracking
-            </Box>
+            </Box> */}
           </Box>
 
           {/* Main content goes here */}
@@ -285,7 +285,9 @@ export default function Home() {
                   <Checkbox value="Saturday" name="days" mr="2">
                     Saturday
                   </Checkbox>
-                  <Checkbox value="Sunday" name="days" mr="2">Sunday</Checkbox>
+                  <Checkbox value="Sunday" name="days" mr="2">
+                    Sunday
+                  </Checkbox>
                 </Flex>
               </FormControl>
 
@@ -301,15 +303,21 @@ export default function Home() {
                 </Select>
               </FormControl>
 
-              <Button type="submit" colorScheme="teal" mt="4">
+              <Button
+                type="submit"
+                bg="black" // add black background here
+                color="white"
+                mt="4"
+              >
                 Add Class
               </Button>
             </form>
           </Box>
         </Flex>
         <Box p={4}>
-          <Center bg='#718096' h='50px' color='white'>
-            "Happiness is not something ready made. It comes from your own actions.” ―Dalai Lama XIV
+          <Center bg="#718096" h="50px" color="white">
+            "Happiness is not something ready made. It comes from your own
+            actions.” ―Dalai Lama XIV
           </Center>
           <Text align="center">© 2023 Studious. All rights reserved.</Text>
         </Box>
