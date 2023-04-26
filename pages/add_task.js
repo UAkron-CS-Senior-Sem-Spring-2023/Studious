@@ -115,7 +115,7 @@ function ProfileTab() {
           as={Avatar}
           size="md"
           p="4"
-          name="John doe" /*Display their First Name from database*/
+          name="s" /*Display their First Name from database*/
           src=""
           bg="gray.200"
           transition="border 0.5s ease"
