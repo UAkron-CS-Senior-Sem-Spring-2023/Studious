@@ -305,10 +305,12 @@ export default function Home() {
               <FormControl mt="4" isRequired>
                 <FormLabel htmlFor="color">Color:</FormLabel>
                 <Select id="color" name="color">
-                  <option value="Red">Red</option>
-                  <option value="Blue">Blue</option>
-                  <option value="Green">Green</option>
-                  <option value="Yellow">Yellow</option>
+                  <option value="red">Red</option>
+                  <option value="blue">Blue</option>
+                  <option value="green">Green</option>
+                  <option value="purple">Purple</option>
+                  <option value="orange">Orange</option>
+                  <option value="yellow">Yellow</option>
                 </Select>
               </FormControl>
 
