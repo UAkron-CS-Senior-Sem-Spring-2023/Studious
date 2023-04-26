@@ -115,6 +115,9 @@ function DisplaySchedule() {
       //let email = localStorage.getItem("email");
     const queryString = `/api/classes?email=${email}`;
 
+    setTimeout(function() {
+    }, 1000); // 1000 milliseconds = 1 second
+
     fetch(queryString)
       .then((response) => response.json())
       .then((data) => {
@@ -224,6 +227,8 @@ function DisplaySchedule() {
       })
       .catch((error) => console.error(error));
   }, []);
+
+
 
   /*useEffect(() => {
     let email = localStorage.getItem("email");

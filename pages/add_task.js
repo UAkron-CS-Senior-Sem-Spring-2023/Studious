@@ -56,8 +56,6 @@ const addTask = async (event) => {
   const end_timeVal = event.target.end_time.value;
   const currDate = new Date(event.target.task_date.value);
 
-  alert(currDate);
-
   // build the JSON for the initial task creation request
   const data = {
     TaskName: taskName,
