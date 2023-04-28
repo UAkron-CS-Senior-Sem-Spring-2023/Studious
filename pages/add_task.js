@@ -56,8 +56,6 @@ const addTask = async (event) => {
   const end_timeVal = event.target.end_time.value;
   const currDate = new Date(event.target.task_date.value);
 
-  alert(currDate);
-
   // build the JSON for the initial task creation request
   const data = {
     TaskName: taskName,
@@ -115,7 +113,7 @@ function ProfileTab() {
           as={Avatar}
           size="md"
           p="4"
-          name="John doe" /*Display their First Name from database*/
+          name="s" /*Display their First Name from database*/
           src=""
           bg="gray.200"
           transition="border 0.5s ease"
@@ -305,10 +303,12 @@ export default function Home() {
               <FormControl mt="4" isRequired>
                 <FormLabel htmlFor="color">Color:</FormLabel>
                 <Select id="color" name="color">
-                  <option value="Red">Red</option>
-                  <option value="Blue">Blue</option>
-                  <option value="Green">Green</option>
-                  <option value="Yellow">Yellow</option>
+                  <option value="red">Red</option>
+                  <option value="blue">Blue</option>
+                  <option value="green">Green</option>
+                  <option value="purple">Purple</option>
+                  <option value="orange">Orange</option>
+                  <option value="yellow">Yellow</option>
                 </Select>
               </FormControl>
 

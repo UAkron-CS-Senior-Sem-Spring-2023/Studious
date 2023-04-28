@@ -100,7 +100,7 @@ function DisplaySchedule() {
             title: data.data[i].TaskName,
             start: data.data[i].startTime,
             end: data.data[i].endTime,
-            backgroundColor: "#f0ad4e",
+            backgroundColor: data.data[i].color,
           };
           events.push(currEvent);
         }
@@ -111,16 +111,133 @@ function DisplaySchedule() {
         setEvents(updatedEvents);
       })
       .catch((error) => console.error(error));
+
+      //let email = localStorage.getItem("email");
+    const queryString = `/api/classes?email=${email}`;
+
+    setTimeout(function() {
+    }, 1000); // 1000 milliseconds = 1 second
+
+    fetch(queryString)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const events = data.data.map((entry) => {
+          return {
+            title: entry.className,
+            start: entry.startDate,
+            end: entry.endDate,
+            backgroundColor: "#f0ad4e",
+          };
+        });
+
+        for (let i = 0; i < data.data.length; i++) {
+          // getting the class
+          const entry = data.data[i];
+          let classColor = data.data[i].color;
+
+          // for all days that this current entry occurs
+          for (let j = 0; j < entry.days.length; j++) {
+            // TODO: create events for all days this month
+            const year = 2023;
+            const month = 3; // JavaScript months are zero-indexed, so April is month 3
+            const dayOfWeekString = entry.days[j];
+
+            // associative array for the days of the week
+            const dayChart = {
+              Sunday: 0,
+              Monday: 1,
+              Tuesday: 2,
+              Wednesday: 3,
+              Thursday: 4,
+              Friday: 5,
+              Saturday: 6,
+            };
+
+            const dayOfWeek = dayChart[dayOfWeekString]; // Monday is day 1 of the week (Sunday is 0): will need to convert the days array to this value
+
+            const dates = [];
+
+            const date = new Date(year, month, 1);
+            while (date.getMonth() === month) {
+              if (date.getDay() === dayOfWeek) {
+                dates.push(new Date(date));
+              }
+              date.setDate(date.getDate() + 1);
+            }
+
+            // for each of these, create the event for the class and push it to the schedule
+            for (let x = 0; x < dates.length; x++) {
+              console.log("this is dates[x]", dates[x])
+              const dateObject = new Date(dates[x]);
+              const today = new Date();
+
+              // get the hours and minutes for the start and end times from the entry array
+
+              // create the name string for the entry, which will have the times
+              const classStart = entry.startTime;
+              const classEnd = entry.endTime;
+              const startDate = new Date(classStart);
+              const endDate = new Date(classEnd);
+
+              const startHours =
+                startDate.getHours() > 12
+                  ? startDate.getHours() - 12
+                  : startDate.getHours();
+              const endHours =
+                endDate.getHours() > 12
+                  ? endDate.getHours() - 12
+                  : endDate.getHours();
+              // const buildClassName = `${
+              //   entry.className
+              // } (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
+              const buildClassName = `${entry.className}`
+
+              //console.log("entry entry:", startDate.getHours());
+
+              console.log("this is date object", dateObject);
+
+              // creating a final start and end date for 
+              const classStartDate = dateObject;
+              const classEndDate = dateObject;
+
+              classStartDate.setHours(startDate.getHours());
+              classStartDate.setMinutes(startDate.getMinutes());
+              classEndDate.setHours(endDate.getHours());
+              classEndDate.setMinutes(endDate.getMinutes());
+
+              // get the color of the class
+
+              const currEvent = {
+                title: buildClassName,
+                start: classStartDate,
+                end: classEndDate,
+                backgroundColor: classColor,
+              };
+
+              console.log("write this to calendar: ", currEvent);
+
+              setEvents((prevEvents) => [...prevEvents, currEvent]);
+            }
+          }
+        }
+
+        // load the task items into the calendar
+        //setEvents(events);
+      })
+      .catch((error) => console.error(error));
   }, []);
 
-  useEffect(() => {
+
+
+  /*useEffect(() => {
     let email = localStorage.getItem("email");
     const queryString = `/api/classes?email=${email}`;
 
     fetch(queryString)
       .then((response) => response.json())
       .then((data) => {
-        //console.log(data);
+        console.log(data);
         const events = data.data.map((entry) => {
           return {
             title: entry.className,
@@ -166,6 +283,7 @@ function DisplaySchedule() {
 
             // for each of these, create the event for the class and push it to the schedule
             for (let x = 0; x < dates.length; x++) {
+              console.log("this is dates[x]", dates[x])
               const dateObject = new Date(dates[x]);
               const today = new Date();
 
@@ -185,20 +303,32 @@ function DisplaySchedule() {
                 endDate.getHours() > 12
                   ? endDate.getHours() - 12
                   : endDate.getHours();
-              const buildClassName = `${
-                entry.className
-              } (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
+              // const buildClassName = `${
+              //   entry.className
+              // } (${startHours}:${startDate.getMinutes()} - ${endHours}:${endDate.getMinutes()})`;
+              const buildClassName = `${entry.className}`
 
               //console.log("entry entry:", startDate.getHours());
 
+              console.log("this is date object", dateObject);
+
+              // creating a final start and end date for 
+              const classStartDate = dateObject;
+              const classEndDate = dateObject;
+
+              classStartDate.setHours(startDate.getHours());
+              classStartDate.setMinutes(startDate.getMinutes());
+              classEndDate.setHours(endDate.getHours());
+              classEndDate.setMinutes(endDate.getMinutes());
+
               const currEvent = {
                 title: buildClassName,
-                start: dateObject,
-                end: dateObject,
+                start: classStartDate,
+                end: classEndDate,
                 backgroundColor: "#f0ad4e",
               };
 
-              console.log("new event: ", currEvent);
+              console.log("write this to calendar: ", currEvent);
 
               setEvents((prevEvents) => [...prevEvents, currEvent]);
             }
@@ -209,7 +339,7 @@ function DisplaySchedule() {
         //setEvents(events);
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, []); */
 
   return (
     <div>
@@ -248,7 +378,7 @@ function ProfileTab() {
           as={Avatar}
           size="md"
           p="4"
-          name="John doe" /*Display their First Name from database*/
+          name="" /*Display their First Name from database*/
           src=""
           bg="gray.200"
           transition="border 0.5s ease"
